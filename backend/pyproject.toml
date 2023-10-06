@@ -1,14 +1,19 @@
 [tool.poetry]
-name = "api"
+name = "backend"
 version = "0.1.0"
 description = ""
 authors = ["Harley Reeves-Martin <harleyreevesmartin@gmail.com>", "Lewis McKenize <McKenizeLewis39@gmail.com>"]
 readme = "README.md"
+packages = [ 
+    { include = "api" }, 
+    { include = "db" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
 fastapi = "^0.103.2"
 uvicorn = "^0.23.2"
+sqlalchemy = "^2.0.21"
 
 [build-system]
 requires = ["poetry-core"]
