@@ -1,4 +1,11 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+
+from backend.api.main import get_db
+
+from backend.db.models import users as users_model
+from backend.db.schemas import user as user_schema
+from backend.db.crud import user as user_crud
 
 router = APIRouter(
     prefix="/users",
@@ -8,7 +15,7 @@ router = APIRouter(
 fake_users = {1: "Harley", 2: "Lewis"}
 
 @router.get("/")
-async def read_users():
+async def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return "All users here.."
 
 @router.get("/{user_id}")
