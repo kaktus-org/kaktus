@@ -1,6 +1,6 @@
-import './App.css';
-import api from './api/axiosConfig';
-import { useState, useEffect } from 'react';
+import "./App.css";
+import api from "./api/axiosConfig";
+import { useState, useEffect } from "react";
 
 function App() {
   const [msg, setMsg] = useState("");
@@ -10,20 +10,18 @@ function App() {
       const response = await api.get("/");
 
       console.log(response.data);
-  
+
       setMsg(response.data.message);
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   useEffect(() => {
     getMsg();
-  }, [])
+  }, []);
 
-  return (
-    <div>Home {msg}</div>
-  );
+  return <div className="text-3xl font-bold underline">Home {msg}</div>;
 }
 
 export default App;
