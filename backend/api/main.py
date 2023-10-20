@@ -18,7 +18,6 @@ from db.database import SessionLocal, engine
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    filename="api.log"
 )
 
 logger = logging.getLogger(__name__)
@@ -47,5 +46,4 @@ async def root():
     return {"message": "yurr"}
 
 def start():
-    logger.info("Starting application on 0.0.0.0:8000")
     uvicorn.run("api.main:app", host="0.0.0.0", port=8000, reload=True)
