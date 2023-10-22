@@ -14,6 +14,7 @@ def get_db():
 from .routers import users
 from db.models import users as users_model
 from db.database import SessionLocal, engine
+from .config import api_config
 
 logging.basicConfig(
     level=logging.INFO,
@@ -46,4 +47,4 @@ async def root():
     return {"message": "yurr"}
 
 def start():
-    uvicorn.run("api.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("api.main:app", host=api_config.host, port=api_config.port, reload=True)
