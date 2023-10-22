@@ -3,6 +3,7 @@ version: '3'
 services:
 
   database:
+    container_name: yampacked-database
     build:
       context: ./backend
       dockerfile: ./db/Dockerfile
@@ -15,6 +16,7 @@ services:
       - "5432:5432"
 
   api:
+    container_name: yampacked-api
     depends_on:
       - database
     build:
@@ -22,12 +24,18 @@ services:
       dockerfile: ./api/Dockerfile
     ports:
       - "8000:8000"
+    environment:
+      - DB_HOST=yampacked-database
+      - DB_NAME=db
+      - DB_USER=admin
+      - DB_PASSWORD=admin
     volumes:
       - ./backend:/app
     networks:
       - database-network
 
   frontend:
+    container_name: yampacked-frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
