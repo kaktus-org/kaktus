@@ -1,18 +1,13 @@
-import logging
-
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
 from .config import database_config
+from utils.logger import logger_config, configure_logger
 
-logger = logging.getLogger(__name__)
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
+logger = configure_logger(__name__, logger_config.logging_level)
 
 engine = create_engine(
     database_config.get_db_url()
