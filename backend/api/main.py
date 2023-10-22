@@ -1,6 +1,5 @@
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import logging
 from sqlalchemy.orm import Session
 import uvicorn
 
@@ -15,13 +14,10 @@ from .routers import users
 from db.models import users as users_model
 from db.database import SessionLocal, engine
 from .config import api_config
+from utils.logger import logger_config, configure_logger
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
 
-logger = logging.getLogger(__name__)
+logger = configure_logger(__name__, logger_config.logging_level)
 
 users_model.Base.metadata.create_all(bind=engine)
 
@@ -48,3 +44,4 @@ async def root():
 
 def start():
     uvicorn.run("api.main:app", host=api_config.host, port=api_config.port, reload=True)
+
