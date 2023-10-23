@@ -2786,7 +2786,7 @@ axe-core@^4.6.2:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.8.2.tgz#2f6f3cde40935825cf4465e3c1c9e77b240ff6ae"
   integrity sha512-/dlp0fxyM3R8YW7MFzaHWXrf4zzbr0vaYb23VBFCl83R7nWNPg/yaQw2Dc8jzCMmDVLhSdzH8MjrsuIUuvX+6g==
 
-axios@^1.5.1:
+axios@^1.5.0, axios@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.5.1.tgz#11fbaa11fc35f431193a9564109c88c1f27b585f"
   integrity sha512-Q28iYCWzNHjAm+yEAot5QaAMxhMghWLFVf7rRdwhUI+c2jix2DUXjAHXVi+s1ibs3mjPO/cCgbA++3BjD0vP/A==
@@ -7132,6 +7132,13 @@ pkg-up@^3.1.0:
   integrity sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==
   dependencies:
     find-up "^3.0.0"
+
+plaid@^17.0.0:
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/plaid/-/plaid-17.0.0.tgz#250055264b570b5fa3f21ec6764878496dfde86b"
+  integrity sha512-0KHCpx9szXcBAngnzCNf1zR0h2JKOMssBIZng2t7Gjsx6324G08qwmIoPcw+hFp3vdibZ5AH3tXuIgN6tN4Z1Q==
+  dependencies:
+    axios "^1.5.0"
 
 postcss-attribute-case-insensitive@^5.0.2:
   version "5.0.2"

@@ -10,7 +10,8 @@ def get_db():
     finally:
         db.close()
 
-from .routers import users
+from .routers import users, plaid_routes
+
 from db.models import users as users_model
 from db.database import SessionLocal, engine
 from .config import api_config
@@ -24,6 +25,7 @@ users_model.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 app.include_router(users.router)
+app.include_router(plaid_routes.router)
 
 origins = [
     "http://localhost",
