@@ -52,7 +52,7 @@ async def get_link_token(skip: int = 0, limit: int = 100, db: Session = Depends(
         request = LinkTokenCreateRequest(
             products=products,
             client_name="Plaid Quickstart",
-            country_codes=list(map(lambda x: CountryCode(x), PLAID_COUNTRY_CODES)),
+            country_codes=list(map(CountryCode, PLAID_COUNTRY_CODES)),
             language='en',
             user=LinkTokenCreateRequestUser(
                 client_user_id=str(time.time())

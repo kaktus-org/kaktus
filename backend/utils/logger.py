@@ -1,5 +1,5 @@
 import logging
-import multipledispatch
+from multipledispatch import dispatch
 import os
 
 from utils.config import Config
@@ -39,7 +39,7 @@ class LoggerConfig(Config):
 
 logger_config: LoggerConfig = LoggerConfig()
 
-@multipledispatch(str, int)
+@dispatch(str, int)
 def configure_logger(name: str, level: int) -> logging.Logger:
     logging.basicConfig(
         level=level,
@@ -48,7 +48,7 @@ def configure_logger(name: str, level: int) -> logging.Logger:
 
     return logging.getLogger(name)
 
-@multipledispatch(str, str)
+@dispatch(str, str)
 def configure_logger(name: str, level: str) -> logging.Logger:
     logging.basicConfig(
         level=level,
