@@ -3,16 +3,12 @@ import os
 from pathlib import Path
 import time
 from dotenv import load_dotenv
-from sqlalchemy.orm import Session
-from fastapi import APIRouter, Depends
 import plaid
 from plaid.api import plaid_api
 from plaid.model.link_token_create_request import LinkTokenCreateRequest
 from plaid.model.link_token_create_request_user import LinkTokenCreateRequestUser
 from plaid.model.products import Products
 from plaid.model.country_code import CountryCode
-
-from api.main import get_db
 
 dotenv_path = Path('.plaid-env')
 load_dotenv(dotenv_path=dotenv_path)
@@ -41,13 +37,7 @@ configuration = plaid.Configuration(
 api_client = plaid.ApiClient(configuration)
 client = plaid_api.PlaidApi(api_client)
 
-router = APIRouter(
-    prefix="/plaid",
-    tags=["plaid"],
-)
-
-@router.get("/get-link-token")
-async def get_link_token(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def get_link_token() -> dict:
     try:
         request = LinkTokenCreateRequest(
             products=products,
@@ -62,3 +52,4 @@ async def get_link_token(skip: int = 0, limit: int = 100, db: Session = Depends(
         return response.to_dict()
     except plaid.ApiException as e:
         return json.loads(e.body)
+    
