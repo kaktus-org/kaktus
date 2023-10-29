@@ -1,18 +1,52 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import api from "./axiosConfig";
-import { PlaidLinkOptions, usePlaidLink } from "react-plaid-link";
+import {
+  PlaidLinkError,
+  PlaidLinkOnExit,
+  PlaidLinkOnExitMetadata,
+  PlaidLinkOnSuccess,
+  PlaidLinkOnSuccessMetadata,
+  PlaidLinkOptions,
+  usePlaidLink,
+} from "react-plaid-link";
 import { Button } from "react-bootstrap";
 
 export const Link = () => {
+  const [linkToken, setLinkToken] = useState(null);
+
+  const onSuccess = useCallback<PlaidLinkOnSuccess>(
+    async (public_token: string, metadata: PlaidLinkOnSuccessMetadata) => {
+      console.log(public_token);
+      console.log(metadata);
+      const data = { public_token: public_token };
+      try {
+        await api.post("bank/set-access-token", data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    []
+  );
+
+  const onExit = useCallback<PlaidLinkOnExit>(
+    (err: PlaidLinkError | null, metadata: PlaidLinkOnExitMetadata) => {
+      console.log(err);
+      console.log(metadata);
+    },
+    []
+  );
+
   const config: PlaidLinkOptions = {
-    token: "",
-    onSuccess: getAccessToken,
+    token: linkToken!,
+    onSuccess,
+    onExit,
   };
 
   async function pairBank() {
-    config.token = await getLinkToken();
+    const token = await getLinkToken();
+    setLinkToken(token);
 
-    console.log(config.token);
+    console.log(token);
   }
 
   async function getLinkToken() {
@@ -25,25 +59,20 @@ export const Link = () => {
     }
   }
 
-  function getAccessToken(publicToken: string) {}
-
-  if (window.location.href.includes("?oauth_state_id=")) {
-    // TODO: figure out how to delete this ts-ignore
-    // @ts-ignore
-    config.receivedRedirectUri = window.location.href;
-  }
-  const { open, ready } = usePlaidLink(config);
-
-  config.receivedRedirectUri = window.location.href;
+  const { open, exit, ready } = usePlaidLink(config);
 
   return (
     <div>
-      <Button type="button" onClick={pairBank}>
-        get Link
-      </Button>
-      <Button type="button" onClick={() => open()} disabled={!ready}>
-        Launch Link
-      </Button>
+      <div>
+        <Button type="button" onClick={pairBank}>
+          get Link
+        </Button>
+      </div>
+      <div>
+        <Button type="button" onClick={() => open()} disabled={!ready}>
+          Launch Link
+        </Button>
+      </div>
     </div>
   );
 };
