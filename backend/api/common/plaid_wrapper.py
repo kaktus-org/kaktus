@@ -7,6 +7,7 @@ import plaid
 from plaid.api import plaid_api
 from plaid.model.link_token_create_request import LinkTokenCreateRequest
 from plaid.model.link_token_create_request_user import LinkTokenCreateRequestUser
+from plaid.model.item_public_token_exchange_request import ItemPublicTokenExchangeRequest
 from plaid.model.products import Products
 from plaid.model.country_code import CountryCode
 
@@ -50,6 +51,17 @@ def get_link_token() -> dict:
         )
         response = client.link_token_create(request)
         return response.to_dict()
+    except plaid.ApiException as e:
+        return json.loads(e.body)
+
+def set_access_token(public_token: str) -> dict:
+    try:
+        exchange_request = ItemPublicTokenExchangeRequest(public_token=public_token)
+        exchange_response = client.item_public_token_exchange(exchange_request)
+        access_token = exchange_response['access_token']
+        item_id = exchange_response['item_id']
+        print(exchange_response)
+        return {"message": "Success"}
     except plaid.ApiException as e:
         return json.loads(e.body)
     
