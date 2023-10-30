@@ -26,7 +26,6 @@ products = []
 for product in PLAID_PRODUCTS:
     products.append(Products(product))
 
-
 configuration = plaid.Configuration(
     host=HOST,
     api_key={
@@ -39,30 +38,40 @@ configuration = plaid.Configuration(
 api_client = plaid.ApiClient(configuration)
 client = plaid_api.PlaidApi(api_client)
 
+def get_link_token_from_plaid() -> dict:
+    request = LinkTokenCreateRequest(
+        products=products,
+        client_name="Plaid Quickstart",
+        country_codes=list(map(CountryCode, PLAID_COUNTRY_CODES)),
+        language='en',
+        user=LinkTokenCreateRequestUser(
+            client_user_id=str(time.time())
+        )
+    )
+    response = client.link_token_create(request)
+    return {"link_token": response.link_token,
+            "expiration": response.expiration}
+
 def get_link_token() -> dict:
     try:
-        request = LinkTokenCreateRequest(
-            products=products,
-            client_name="Plaid Quickstart",
-            country_codes=list(map(CountryCode, PLAID_COUNTRY_CODES)),
-            language='en',
-            user=LinkTokenCreateRequestUser(
-                client_user_id=str(time.time())
-            )
-        )
-        response = client.link_token_create(request)
-        return response.to_dict()
+        return get_link_token_from_plaid()
     except plaid.ApiException as e:
         return json.loads(e.body)
 
-def set_access_token(db: Session, public_token: str, metadata: dict) -> dict:
+def get_access_token_from_plaid(public_token: str) -> dict:
+    request = ItemPublicTokenExchangeRequest(public_token=public_token)
+    response = client.item_public_token_exchange(request)
+    return {"access_token": response.access_token,
+            "item_id": response.item_id}
+
+def store_access_token(db: Session, access_token: dict, item_data: dict):
+    # TODO: attribute item and access token to a user in the db
+    pass
+
+def set_access_token(db: Session, public_token: str, item_data: dict) -> dict:
     try:
-        exchange_request = ItemPublicTokenExchangeRequest(public_token=public_token)
-        exchange_response = client.item_public_token_exchange(exchange_request)
-        access_token = exchange_response['access_token']
-        item_id = exchange_response['item_id']
-        print(exchange_response)
-        return {"message": "Success"}
+        access_token = get_access_token_from_plaid(public_token)
+        store_access_token(db, access_token, item_data)
     except plaid.ApiException as e:
         return json.loads(e.body)
     
