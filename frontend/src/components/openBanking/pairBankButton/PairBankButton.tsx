@@ -1,5 +1,6 @@
+import "./PairBankButton.css";
 import { useCallback, useEffect, useState } from "react";
-import api from "./axiosConfig";
+import api from "../../../api/axiosConfig";
 import {
   PlaidLinkOnSuccess,
   PlaidLinkOnSuccessMetadata,
@@ -8,13 +9,13 @@ import {
 } from "react-plaid-link";
 import { Button } from "react-bootstrap";
 
-export const Link = () => {
+export const PairBankButton = () => {
   const [linkToken, setLinkToken] = useState(null);
   const [expiration, setExpiration] = useState(null);
 
   async function pairBank() {
     try {
-      const response = await api.get("/bank/get-link-token");
+      const response = await api.get("banking/get-link-token");
 
       setLinkToken(response.data.link_token);
       setExpiration(response.data.expiration);
@@ -25,9 +26,9 @@ export const Link = () => {
 
   const onSuccess = useCallback<PlaidLinkOnSuccess>(
     async (public_token: string, metadata: PlaidLinkOnSuccessMetadata) => {
-      const data = { public_token: public_token };
+      const data = { public_token: public_token, metadata: metadata };
       try {
-        await api.post("bank/set-access-token", data);
+        await api.post("banking/set-access-token", data);
       } catch (err) {
         console.log(err);
       }
