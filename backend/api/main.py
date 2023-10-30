@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import uvicorn
 
+
 def get_db():
     db = SessionLocal()
     try:
@@ -10,7 +11,8 @@ def get_db():
     finally:
         db.close()
 
-from .routers import users, bank
+from .routers import users
+from .routers import banking
 
 from db.models import users as users_model
 from db.database import SessionLocal, engine
@@ -25,7 +27,7 @@ users_model.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 app.include_router(users.router)
-app.include_router(bank.router)
+app.include_router(banking.router)
 
 origins = [
     "http://localhost",

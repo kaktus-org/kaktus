@@ -1,11 +1,11 @@
 import "./App.css";
-import { Link } from "./api/openBanking";
+import { PairBankButton } from "./components/openBanking/pairBankButton/PairBankButton";
 
 function App() {
   return (
     <div>
       <div className="text-3xl font-bold underline">Home</div>
-      <Link />
+      <PairBankButton />
     </div>
   );
 }
