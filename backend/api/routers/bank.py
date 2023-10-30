@@ -19,4 +19,4 @@ async def get_link_token(skip: int = 0, limit: int = 100, db: Session = Depends(
 
 @router.post("/set-access-token")
 async def set_access_token(data: Item, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return plaid_wrapper.set_access_token(data.public_token)
+    return plaid_wrapper.set_access_token(db, data.public_token)

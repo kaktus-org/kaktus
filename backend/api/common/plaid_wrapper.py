@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import time
 from dotenv import load_dotenv
+from sqlalchemy.orm.session import Session
 import plaid
 from plaid.api import plaid_api
 from plaid.model.link_token_create_request import LinkTokenCreateRequest
@@ -54,7 +55,7 @@ def get_link_token() -> dict:
     except plaid.ApiException as e:
         return json.loads(e.body)
 
-def set_access_token(public_token: str) -> dict:
+def set_access_token(db: Session, public_token: str) -> dict:
     try:
         exchange_request = ItemPublicTokenExchangeRequest(public_token=public_token)
         exchange_response = client.item_public_token_exchange(exchange_request)
