@@ -1,5 +1,5 @@
 from utils.config import Config
-from api.banking.banking_interface import Banking
+from api.banking.interface import Banking
 from api.banking.plaid import PlaidBanking
 
 class BankingConfig:
