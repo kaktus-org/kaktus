@@ -7,6 +7,7 @@ from plaid.model.link_token_create_request_user import LinkTokenCreateRequestUse
 from plaid.model.item_public_token_exchange_request import ItemPublicTokenExchangeRequest
 from api.banking.banking_interface import Banking
 from api.banking.plaid.config import PlaidConfig
+from api.banking.plaid.plaid_transactions import PlaidTransactions
 
 class PlaidBanking(Banking):
     
@@ -42,7 +43,11 @@ class PlaidBanking(Banking):
     @staticmethod
     def store_access_token(db: Session, access_token: dict, item_data: dict) -> dict:
         # TODO: attribute item and access token to a user in the db
-        print(access_token)
+        print(item_data)
+        print(PlaidTransactions.sync(access_token["access_token"]))
+        account_ids = list(map(lambda x : x['id'], item_data['accounts']))
+        print(PlaidTransactions.get_reccurring(access_token["access_token"], account_ids))
+        PlaidTransactions.get_categories()
         return {}
 
     @staticmethod
