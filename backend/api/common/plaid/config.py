@@ -8,6 +8,7 @@ class PlaidConfig(Config):
     client_id = Config.get_string("PLAID_CLIENT_ID")
     secret = Config.get_string("PLAID_SECRET")
     env = Config.get_string("PLAID_ENV")
+    host = plaid.Environment.Sandbox
     if env == 'sandbox':
         host = plaid.Environment.Sandbox
     elif env == 'development':
