@@ -2,12 +2,9 @@ import json
 import time
 from sqlalchemy.orm.session import Session
 import plaid
-from plaid.model.link_token_create_request import LinkTokenCreateRequest
-from plaid.model.link_token_create_request_user import LinkTokenCreateRequestUser
-from plaid.model.item_public_token_exchange_request import ItemPublicTokenExchangeRequest
+from plaid.models import LinkTokenCreateRequest, LinkTokenCreateRequestUser, ItemPublicTokenExchangeRequest
 from api.banking.banking_interface import Banking
-from api.banking.plaid.config import PlaidConfig
-from api.banking.plaid.plaid_transactions import PlaidTransactions
+from api.banking.plaid import PlaidConfig, PlaidLiabilities, PlaidTransactions
 
 class PlaidBanking(Banking):
     
@@ -48,6 +45,7 @@ class PlaidBanking(Banking):
         account_ids = list(map(lambda x : x['id'], item_data['accounts']))
         print(PlaidTransactions.get_reccurring(access_token["access_token"], account_ids))
         PlaidTransactions.get_categories()
+        print(PlaidLiabilities.get_liabilities(access_token["access_token"]))
         return {}
 
     @staticmethod

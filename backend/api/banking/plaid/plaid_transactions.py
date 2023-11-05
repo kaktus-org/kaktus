@@ -1,9 +1,7 @@
 import json
 import plaid
-from plaid.model.transactions_sync_request import TransactionsSyncRequest
-from plaid.model.transactions_recurring_get_request import TransactionsRecurringGetRequest
-
-from api.banking.plaid.config import PlaidConfig
+from plaid.models import TransactionsSyncRequest, TransactionsRecurringGetRequest, TransactionsSyncResponse, TransactionsRecurringGetResponse, CategoriesGetResponse
+from api.banking.plaid import PlaidConfig
 
 class PlaidTransactions:
 
@@ -21,12 +19,12 @@ class PlaidTransactions:
                     access_token=access_token,
                     cursor=cursor,
                 )
-                response = PlaidConfig.client.transactions_sync(request)
-                added.extend(response['added'])
-                modified.extend(response['modified'])
-                removed.extend(response['removed'])
-                has_more = response['has_more']
-                cursor = response['next_cursor']
+                response: TransactionsSyncResponse = PlaidConfig.client.transactions_sync(request)
+                added.extend(response.added)
+                modified.extend(response.modified)
+                removed.extend(response.removed)
+                has_more = response.has_more
+                cursor = response.next_cursor
 
             #TODO: update transactions for user in database
 
@@ -46,9 +44,9 @@ class PlaidTransactions:
             account_ids=account_ids
         )
         try:
-            response = PlaidConfig.client.transactions_recurring_get(request)
-            inflow = response['inflow_streams']
-            outflow = response['outflow_streams']
+            response: TransactionsRecurringGetResponse = PlaidConfig.client.transactions_recurring_get(request)
+            inflow = response.inflow_streams
+            outflow = response.outflow_streams
 
             #TODO: update reccuring transactions for user in database
 
@@ -60,8 +58,8 @@ class PlaidTransactions:
         
     def get_categories() -> dict:
         try:
-            response = PlaidConfig.client.categories_get({})
-            categories = response['categories']
+            response: CategoriesGetResponse = PlaidConfig.client.categories_get({})
+            categories = response.categories
 
             return categories
         except plaid.ApiException as e:

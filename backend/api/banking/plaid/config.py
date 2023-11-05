@@ -1,10 +1,9 @@
 import plaid
 from plaid.api import plaid_api
-from plaid.model.products import Products
-from plaid.model.country_code import CountryCode
+from plaid.models import Products, CountryCode
 from utils.config import Config
 
-class PlaidConfig(Config):
+class PlaidConfig:
     client_id = Config.get_string("PLAID_CLIENT_ID")
     secret = Config.get_string("PLAID_SECRET")
     env = Config.get_string("PLAID_ENV")
