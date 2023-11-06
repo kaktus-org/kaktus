@@ -2,6 +2,9 @@ import json
 import plaid
 from plaid.models import LiabilitiesGetRequest, LiabilitiesGetResponse
 from api.banking.plaid.services.client import plaid_client
+from utils.logger import logger_config, configure_logger
+
+logger = configure_logger(__name__, logger_config.logging_level)
 
 class PlaidLiabilities:
 
@@ -12,6 +15,7 @@ class PlaidLiabilities:
             response: LiabilitiesGetResponse = plaid_client.liabilities_get(request)
             
             return response
-        except plaid.ApiException as e:            
+        except plaid.ApiException as e:
+            logger.error(e)
             return json.loads(e.body)
         

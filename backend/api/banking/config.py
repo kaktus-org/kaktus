@@ -8,9 +8,9 @@ class BankingConfig(Config):
         super().__init__()
         self.api_name = Config.get_string("BANKING_API")
         self.api = self.__get_api()
-    
+
     def __get_api(self) -> Banking:
         if self.api_name == "plaid":
             return PlaidBanking
-        
+
 banking_config = BankingConfig()

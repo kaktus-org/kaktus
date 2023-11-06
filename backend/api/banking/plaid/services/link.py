@@ -4,6 +4,9 @@ import plaid
 from plaid.models import LinkTokenCreateRequest, LinkTokenCreateRequestUser, ItemPublicTokenExchangeRequest, LinkTokenCreateResponse, ItemPublicTokenExchangeResponse
 from api.banking.plaid.config import plaid_config
 from api.banking.plaid.services.client import plaid_client
+from utils.logger import logger_config, configure_logger
+
+logger = configure_logger(__name__, logger_config.logging_level)
 
 class PlaidLink:
 
@@ -21,6 +24,7 @@ class PlaidLink:
         try:
             response: LinkTokenCreateResponse = plaid_client.link_token_create(request)
         except plaid.ApiException as e:
+            logger.error(e)
             return json.loads(e.body)
         
         return {"link_token": response.link_token,
@@ -33,6 +37,7 @@ class PlaidLink:
         try:
             response: ItemPublicTokenExchangeResponse = plaid_client.item_public_token_exchange(request)
         except plaid.ApiException as e:
+            logger.error(e)
             return json.loads(e.body)
         
         return {"access_token": response.access_token,
