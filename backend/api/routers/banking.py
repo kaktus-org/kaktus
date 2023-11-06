@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends
 from api.main import get_db
-from api.common.plaid import plaid_utils
-from api.common.plaid.plaid_data import PublicTokenData
+from api.banking.api import banking_api
+from api.banking.models import PublicTokenData
 
 router = APIRouter(
     prefix="/banking",
@@ -11,8 +11,8 @@ router = APIRouter(
 
 @router.get("/get-link-token")
 async def get_link_token(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return plaid_utils.get_link_token()
+    return banking_api.get_link_token()
 
 @router.post("/set-access-token")
 async def set_access_token(data: PublicTokenData, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return plaid_utils.set_access_token(db, data.public_token, data.metadata)
+    return banking_api.set_access_token(db, data.public_token, data.metadata)

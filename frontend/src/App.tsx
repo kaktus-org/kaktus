@@ -1,5 +1,5 @@
 import "./App.css";
-import { PairBankButton } from "./components/openBanking/pairBankButton/PairBankButton";
+import { PairBankButton } from "./components/openBanking/OpenBanking";
 
 function App() {
   return (

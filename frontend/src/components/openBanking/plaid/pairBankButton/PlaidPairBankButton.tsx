@@ -1,6 +1,6 @@
-import "./PairBankButton.css";
+import "./PlaidPairBankButton.css";
 import { useCallback, useEffect, useState } from "react";
-import api from "../../../api/axiosConfig";
+import api from "../../../../api/axiosConfig";
 import {
   PlaidLinkOnSuccess,
   PlaidLinkOnSuccessMetadata,
@@ -9,7 +9,7 @@ import {
 } from "react-plaid-link";
 import { Button } from "react-bootstrap";
 
-export const PairBankButton = () => {
+export const PlaidPairBankButton = () => {
   const [linkToken, setLinkToken] = useState(null);
   const [expiration, setExpiration] = useState(null);
 
