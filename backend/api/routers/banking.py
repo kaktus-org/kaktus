@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends
 from api.main import get_db
-from api.banking import banking_api
+from api.banking.api import banking_api
 from api.banking.models import PublicTokenData
 
 router = APIRouter(
