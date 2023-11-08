@@ -1,6 +1,6 @@
 import "./PlaidPairBankButton.css";
 import { useCallback, useEffect, useState } from "react";
-import api from "../../../../api/axiosConfig";
+import { api } from "api";
 import {
   PlaidLinkOnSuccess,
   PlaidLinkOnSuccessMetadata,
