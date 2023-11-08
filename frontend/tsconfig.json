@@ -8,7 +8,9 @@
     ],
     "baseUrl": "src",
     "paths": {
-      "api/*": ["api/*"]
+      "api/*": ["api/*"],
+      "components/*": ["components/*"],
+      "screens/*": ["screens/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,

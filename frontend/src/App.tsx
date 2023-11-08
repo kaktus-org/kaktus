@@ -1,11 +1,16 @@
 import "./App.css";
-import { PairBankButton } from "./components/openBanking/OpenBanking";
+import { Layout } from "components/Layout";
+import { Routes, Route } from "react-router-dom";
+import { Home } from "screens/home";
 
 function App() {
   return (
     <div>
-      <div className="text-3xl font-bold underline">Home</div>
-      <PairBankButton />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Home />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
