@@ -1,0 +1,1 @@
+export { PlaidPairBankButton } from "./pairBankButton";
