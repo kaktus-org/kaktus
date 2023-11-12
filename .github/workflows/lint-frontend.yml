@@ -1,0 +1,24 @@
+name: Frontend TypeScript Linting
+
+on: [pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: "16"
+
+    - name: Install dependencies
+      run: |
+        pushd frontend || exit
+        yarn install  # Using yarn to install dependencies
+
+    - name: Lint with ESLint
+      run: bash ./scripts/run-lint-frontend.sh
