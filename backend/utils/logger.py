@@ -4,10 +4,12 @@ import os
 
 from utils.config import Config
 
+
 class LoggerConfig(Config):
 
     def __init__(self):
-        self.logging_level: int = LoggerConfig.get_log_level("LOGGING_LEVEL", logging.INFO)
+        self.logging_level: int = LoggerConfig.get_log_level(
+            "LOGGING_LEVEL", logging.INFO)
 
     @staticmethod
     def get_log_level(key, default=None):
@@ -18,13 +20,13 @@ class LoggerConfig(Config):
 
         level_names = {
             "CRITICAL": logging.CRITICAL,
-            "FATAL":    logging.FATAL,
-            "ERROR":    logging.ERROR,
-            "WARNING":  logging.WARNING,
-            "WARN":     logging.WARNING,
-            "INFO":     logging.INFO,
-            "DEBUG":    logging.DEBUG,
-            "NOTSET":   logging.NOTSET,
+            "FATAL": logging.FATAL,
+            "ERROR": logging.ERROR,
+            "WARNING": logging.WARNING,
+            "WARN": logging.WARNING,
+            "INFO": logging.INFO,
+            "DEBUG": logging.DEBUG,
+            "NOTSET": logging.NOTSET,
         }
 
         try:
@@ -37,7 +39,9 @@ class LoggerConfig(Config):
 
         return log_level
 
+
 logger_config: LoggerConfig = LoggerConfig()
+
 
 @dispatch(str, int)
 def configure_logger(name: str, level: int) -> logging.Logger:
@@ -47,6 +51,7 @@ def configure_logger(name: str, level: int) -> logging.Logger:
     )
 
     return logging.getLogger(name)
+
 
 @dispatch(str, str)
 def configure_logger(name: str, level: str) -> logging.Logger:

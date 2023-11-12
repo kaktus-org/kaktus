@@ -21,4 +21,4 @@ jobs:
         pip install flake8
         
     - name: Lint Backend
-      run: bash ../../scripts/run-lint-backend.sh
+      run: bash ./scripts/run-lint-backend.sh

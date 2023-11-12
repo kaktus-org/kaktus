@@ -1,6 +1,11 @@
-from fastapi import Depends, FastAPI, HTTPException
+from .routers import users
+from utils.logger import logger_config, configure_logger
+from .config import api_config
+from db.database import SessionLocal, engine
+from db.models import users as users_model
+from .routers import banking
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
 import uvicorn
 
 
@@ -10,14 +15,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-from .routers import users
-from .routers import banking
-
-from db.models import users as users_model
-from db.database import SessionLocal, engine
-from .config import api_config
-from utils.logger import logger_config, configure_logger
 
 
 logger = configure_logger(__name__, logger_config.logging_level)
@@ -42,10 +39,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 async def root():
     return {"message": "yurr"}
 
-def start():
-    uvicorn.run("api.main:app", host=api_config.host, port=api_config.port, reload=True)
 
+def start():
+    uvicorn.run("api.main:app", host=api_config.host,
+                port=api_config.port, reload=True)

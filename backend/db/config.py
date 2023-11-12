@@ -1,5 +1,6 @@
 from utils.config import Config
 
+
 class DatabaseConfig(Config):
 
     def __init__(self):

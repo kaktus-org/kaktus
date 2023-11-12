@@ -2,6 +2,7 @@ from utils.config import Config
 from api.banking.interface import Banking
 from api.banking.plaid.banking import PlaidBanking
 
+
 class BankingConfig(Config):
 
     def __init__(self) -> None:
@@ -12,5 +13,6 @@ class BankingConfig(Config):
     def __get_api(self) -> Banking:
         if self.api_name == "plaid":
             return PlaidBanking
+
 
 banking_config = BankingConfig()

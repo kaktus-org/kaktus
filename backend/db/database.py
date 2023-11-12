@@ -14,6 +14,7 @@ engine = create_engine(
 )
 
 logger.info(f"Creating local session '{engine.url}'")
-SessionLocal: Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal: Session = sessionmaker(
+    autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
