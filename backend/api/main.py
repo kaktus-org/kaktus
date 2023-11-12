@@ -1,20 +1,12 @@
 from .routers import users
-from utils.logger import logger_config, configure_logger
-from .config import api_config
-from db.database import SessionLocal, engine
-from db.models import users as users_model
 from .routers import banking
+from db.models import users as users_model
+from db.database import engine
+from .config import api_config
+from utils.logger import logger_config, configure_logger
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 logger = configure_logger(__name__, logger_config.logging_level)
