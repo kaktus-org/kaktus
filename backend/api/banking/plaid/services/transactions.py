@@ -1,10 +1,12 @@
 import json
 import plaid
-from plaid.models import TransactionsSyncRequest, TransactionsRecurringGetRequest, TransactionsSyncResponse, TransactionsRecurringGetResponse, CategoriesGetResponse
+from plaid.models import TransactionsSyncRequest, TransactionsRecurringGetRequest, TransactionsSyncResponse, \
+    TransactionsRecurringGetResponse, CategoriesGetResponse
 from api.banking.plaid.services.client import plaid_client
 from utils.logger import logger_config, configure_logger
 
 logger = configure_logger(__name__, logger_config.logging_level)
+
 
 class PlaidTransactions:
 
@@ -21,11 +23,12 @@ class PlaidTransactions:
                 cursor=cursor,
             )
             try:
-                response: TransactionsSyncResponse = plaid_client.transactions_sync(request)
+                response: TransactionsSyncResponse = plaid_client.transactions_sync(
+                    request)
             except plaid.ApiException as e:
                 logger.error(e)
-                return json.loads(e.body)           
-            
+                return json.loads(e.body)
+
             added.extend(response.added)
             modified.extend(response.modified)
             removed.extend(response.removed)
@@ -37,7 +40,6 @@ class PlaidTransactions:
                 "removed": removed,
                 "cursor": cursor}
 
-
     @staticmethod
     def get_reccurring(access_token: str, account_ids: list[str]) -> dict:
         request = TransactionsRecurringGetRequest(
@@ -45,7 +47,8 @@ class PlaidTransactions:
             account_ids=account_ids
         )
         try:
-            response: TransactionsRecurringGetResponse = plaid_client.transactions_recurring_get(request)
+            response: TransactionsRecurringGetResponse = plaid_client.transactions_recurring_get(
+                request)
         except plaid.ApiException as e:
             logger.error(e)
             return json.loads(e.body)
@@ -55,7 +58,6 @@ class PlaidTransactions:
 
         return {"inflow": inflow,
                 "outflow": outflow}
-
 
     @staticmethod
     def get_categories() -> dict:

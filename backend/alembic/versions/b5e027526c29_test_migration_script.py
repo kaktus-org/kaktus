@@ -1,7 +1,7 @@
 """test migration script
 
 Revision ID: b5e027526c29
-Revises: 
+Revises:
 Create Date: 2023-10-11 21:52:55.484176
 
 """

@@ -5,7 +5,7 @@ from db.schemas import user as user_schema
 
 
 def get_user(db: Session, user_id: int):
-    return db.query(user_model.User).filter(models.User.id == user_id).first()
+    return db.query(user_model.User).filter(user_model.User.id == user_id).first()
 
 
 def get_user_by_email(db: Session, email: str):
@@ -17,8 +17,10 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 
 def create_user(db: Session, user: user_schema.UserCreate):
-    not_a_real_password = user.password + "nothashed" # TODO: obviously insecure, make this secure.
-    db_user  = user_model.User(email=user_model.User.email, hashed_password=not_a_real_password)
+    # TODO: obviously insecure, make this secure.
+    not_a_real_password = user.password + "nothashed"
+    db_user = user_model.User(
+        email=user_model.User.email, hashed_password=not_a_real_password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
