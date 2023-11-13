@@ -9,10 +9,10 @@ for arg in "$@"; do
     case "$arg" in
         --help|-h)      echo "${USAGE}"; exit 0;;
         --fix|-f)       FIX="--fix";;
+        pipefail)       ;;
         *)              echo -e "unknown option $arg\n$USAGE" >&2; exit 1;;
     esac
 done
-
 
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 repo_dir="$(dirname "${script_dir}")"
