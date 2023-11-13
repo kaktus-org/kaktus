@@ -17,10 +17,9 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 
 def create_user(db: Session, user: UserCreate):
-    not_a_real_password = user.password + "nothashed" # TODO: obviously insecure, make this secure.
+    not_a_real_password = user.password + "nothashed"  # TODO: obviously insecure, make this secure.
     db_user = User(email=user.email, hashed_password=not_a_real_password, is_active=True)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     return db_user
-
