@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -o pipefail
 
 USAGE="Usage: $(basename $0) [-f | --fix]"
 FIX=""
@@ -11,6 +10,8 @@ for arg in "$@"; do
         *)              echo -e "unknown option $arg\n$USAGE" >&2; exit 1;;
     esac
 done
+
+set -o pipefail
 
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 repo_dir="$(dirname "${script_dir}")"
