@@ -1,0 +1,28 @@
+input:focus, button:focus {
+  outline: none;
+  border-color: #CC5500; /* hotOrange */
+  box-shadow: 0 0 0 2px #CC5500; /* hotOrange focus shadow */
+}
+
+button:hover {
+  background-color: #CC5500; /* hotOrange */
+  transition: background-color 0.3s ease-in-out;
+}
+
+.list-disc li::marker {
+  color: #D4AF37; /* gold color for bullet points */
+}
+
+
+.requirements li::before {
+    content: '✖'; /* Default content is a cross */
+    color: red; /* Red for invalid requirements */
+    display: inline-block; /* Needed to apply margins */
+    width: 1em; /* Width of the pseudo-element */
+    margin-left: -1.5em; /* Align with the list content */
+}
+  
+.requirements li.valid::before {
+    content: '✔'; /* Tick for valid requirements */
+    color: green; /* Green for valid requirements */
+}
