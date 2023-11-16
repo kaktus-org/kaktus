@@ -6,11 +6,13 @@ from plaid.models import LinkTokenCreateRequest, LinkTokenCreateRequestUser, \
 from api.banking.plaid.config import plaid_config
 from api.banking.plaid.services.client import plaid_client
 from utils.logger import logger_config, configure_logger
+from utils.statics import StaticClass
+
 
 logger = configure_logger(__name__, logger_config.logging_level)
 
 
-class PlaidLink:
+class PlaidLink(metaclass=StaticClass):
 
     @staticmethod
     def get_link_token() -> dict:
