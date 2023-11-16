@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "api";
 import React, { useState } from "react";
 
 interface UserRegistrationData {
@@ -8,7 +8,7 @@ interface UserRegistrationData {
 
 const registerUser = async (userData: UserRegistrationData) => {
     try {
-        const response = await axios.post("http://localhost:8000/users/users/", userData);
+        const response = await api.post("/users/", userData);
         console.log("User registered:", response.data);
     } catch (error) { 
         console.error("Error registering user:", error)
