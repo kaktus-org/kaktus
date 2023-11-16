@@ -7,7 +7,7 @@ class BankingConfig(Config):
 
     def __init__(self) -> None:
         super().__init__()
-        self.api_name = Config.get_string("BANKING_API")
+        self.api_name = Config.get_string("BANKING_API", "plaid")
         self.api = self.__get_api()
 
     def __get_api(self) -> Banking:
