@@ -24,4 +24,3 @@ async def get_link_token(skip: int = 0, limit: int = 100, db: Session = Depends(
 @router.post("/set-access-token")
 async def set_access_token(data: PublicTokenData, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return BankingAPI.set_access_token(db, data.public_token, data.metadata)
-
