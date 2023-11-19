@@ -21,6 +21,9 @@ app.include_router(banking.router)
 origins = [
     "http://localhost",
     "http://localhost:3000",
+    "http://api.kaktus.money",
+    "http://kaktus.money:3000",
+    "http://api.kaktus.money:3000",
 ]
 
 app.add_middleware(
