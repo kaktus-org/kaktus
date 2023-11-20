@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from db.models.users import User
 from db.schemas.user import UserCreate
 from utils.statics import StaticClass
+import utils.security.auth as auth
 
 
 class UserCRUD(metaclass=StaticClass):
@@ -20,8 +21,8 @@ class UserCRUD(metaclass=StaticClass):
 
     @staticmethod
     def create_user(db: Session, user: UserCreate):
-        not_a_real_password = user.password + "nothashed"  # TODO: obviously insecure, make this secure.
-        db_user = User(email=user.email, hashed_password=not_a_real_password, is_active=True)
+        hashed_password = auth.hash_password(user.password)
+        db_user = User(email=user.email, hashed_password=hashed_password, is_active=True)
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
