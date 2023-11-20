@@ -1,7 +1,7 @@
 [flake8]
 exclude = .git,__pycache__
 max-complexity = 10
-max-line-length = 127
+max-line-length = 300
 
 # ignore method redefinition errors for multiple-dispatch
 ignore = F811

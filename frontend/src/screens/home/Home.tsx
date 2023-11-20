@@ -1,3 +1,4 @@
+import LoginForm from "components/login";
 import { PairBankButton } from "components/openBanking/OpenBanking";
 
 export const Home = () => {
@@ -5,6 +6,7 @@ export const Home = () => {
     <div>
       <div className="text-3xl font-bold underline">Home</div>
       <PairBankButton />
+      <LoginForm />
     </div>
   );
 };
