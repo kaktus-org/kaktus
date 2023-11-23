@@ -1,12 +1,17 @@
 from datetime import datetime, timedelta
-from passlib.context import CryptContext
+
+from fastapi import Depends
+from fastapi import HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from fastapi import HTTPException, status
+from sqlalchemy.orm import Session
 
+from db.crud.user import UserCRUD
+from db.models.users import User
+from utils.database_utils import get_db
 from utils.security.config import auth_config
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")
 
 authorisation_exception = HTTPException(
@@ -16,15 +21,18 @@ authorisation_exception = HTTPException(
 )
 
 
-def hash_password(password: str) -> str:
+async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
     '''
-        Return the result of generating a salt and hashing the given password + that salt
+        Get the current user by their JWT token. If the token is invalid, raise an authorisation exception,
+        else, return the users email address. Use this function to authorise API requests.
+
+        TODO: Extend this flow to implement RBAC
     '''
-    return pwd_context.hash(password)
-
-
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    email = verify_token(token)
+    user = UserCRUD.get_user_by_email(db, email)
+    if user is None:
+        raise authorisation_exception
+    return user
 
 
 def create_jwt_token(data: dict) -> str:
