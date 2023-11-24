@@ -20,14 +20,13 @@ class PlaidLink(metaclass=StaticClass):
             products=plaid_config.products,
             client_name="client",
             country_codes=plaid_config.country_codes,
-            language='en',
+            language="en",
             user=LinkTokenCreateRequestUser(
                 client_user_id=str(time.time())
             )
         )
         try:
-            response: LinkTokenCreateResponse = plaid_client.link_token_create(
-                request)
+            response: LinkTokenCreateResponse = plaid_client.link_token_create(request)
         except plaid.ApiException as e:
             logger.error(e)
             return json.loads(e.body)
@@ -36,14 +35,10 @@ class PlaidLink(metaclass=StaticClass):
                 "expiration": response.expiration}
 
     @staticmethod
-    def get_access_token_from_plaid(public_token: str) -> dict:
+    def get_access_token(public_token: str) -> ItemPublicTokenExchangeResponse:
         request = ItemPublicTokenExchangeRequest(public_token=public_token)
         try:
-            response: ItemPublicTokenExchangeResponse = plaid_client.item_public_token_exchange(
-                request)
+            return plaid_client.item_public_token_exchange(request)
         except plaid.ApiException as e:
             logger.error(e)
             return json.loads(e.body)
-
-        return {"access_token": response.access_token,
-                "item_id": response.item_id}
