@@ -1,7 +1,10 @@
 from sqlalchemy.orm.session import Session
 
 from api.banking.interface import Banking
-from api.banking.plaid.services import PlaidLink, PlaidLiabilities, PlaidTransactions
+from api.banking.plaid.services import PlaidLink
+from db.crud.bank_account import BankAccountCRUD
+from db.schemas.bank_account import BankAccountCreate
+from db.schemas.user import User
 
 
 class PlaidBanking(Banking):
@@ -11,18 +14,7 @@ class PlaidBanking(Banking):
         return PlaidLink.get_link_token()
 
     @staticmethod
-    def set_access_token(db: Session, public_token: str, item_data: dict) -> dict:
-        access_token = PlaidLink.get_access_token_from_plaid(public_token)
-        return PlaidBanking.store_access_token(db, access_token, item_data)
-
-    @staticmethod
-    def store_access_token(db: Session, access_token: dict, item_data: dict) -> dict:
-        # TODO: attribute item and access token to a user in the db
-        print(item_data)
-        print(PlaidTransactions.sync(access_token["access_token"]))
-        account_ids = [account['id'] for account in item_data['accounts']]
-        print(PlaidTransactions.get_reccurring(
-            access_token["access_token"], account_ids))
-        PlaidTransactions.get_categories()
-        print(PlaidLiabilities.get_liabilities(access_token["access_token"]))
-        return {}
+    def set_access_token(db: Session, user: User, public_token: str, item_data: dict) -> None:
+        item = PlaidLink.get_access_token(public_token)
+        account = BankAccountCreate(name=item_data["account"]["name"], user=user.id, access_token=item.access_token, item_id=item.item_id)
+        BankAccountCRUD.create_bank_account(db, account)
