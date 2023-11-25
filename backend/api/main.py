@@ -22,8 +22,8 @@ origins = [
     "http://localhost",
     "http://localhost:3000",
     "http://api.kaktus.money",
-    "http://kaktus.money:3000",
-    "http://api.kaktus.money:3000",
+    "http://kaktus.money",
+    "http://portal.kaktus.money",
 ]
 
 app.add_middleware(
