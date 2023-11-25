@@ -23,17 +23,16 @@ class PlaidTransactions:
                 cursor=cursor,
             )
             try:
-                response: TransactionsSyncResponse = plaid_client.transactions_sync(
-                    request)
+                response = plaid_client.transactions_sync(request).to_dict()
             except plaid.ApiException as e:
                 logger.error(e)
                 return json.loads(e.body)
 
-            added.extend(response.added)
-            modified.extend(response.modified)
-            removed.extend(response.removed)
-            has_more = response.has_more
-            cursor = response.next_cursor
+            added.extend(response["added"])
+            modified.extend(response["modified"])
+            removed.extend(response["removed"])
+            has_more = response["has_more"]
+            cursor = response["next_cursor"]
 
         return {"added": added,
                 "modified": modified,
@@ -47,8 +46,7 @@ class PlaidTransactions:
             account_ids=account_ids
         )
         try:
-            response: TransactionsRecurringGetResponse = plaid_client.transactions_recurring_get(
-                request)
+            response: TransactionsRecurringGetResponse = plaid_client.transactions_recurring_get(request)
         except plaid.ApiException as e:
             logger.error(e)
             return json.loads(e.body)

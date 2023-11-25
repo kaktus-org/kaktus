@@ -1,7 +1,7 @@
 from sqlalchemy.orm.session import Session
 
 from api.banking.interface import Banking
-from api.banking.plaid.services import PlaidLink
+from api.banking.plaid.services import PlaidLink, PlaidTransactions
 from db.crud.bank_account import BankAccountCRUD
 from db.schemas.bank_account import BankAccountCreate
 from db.schemas.user import User
@@ -18,3 +18,9 @@ class PlaidBanking(Banking):
         item = PlaidLink.get_access_token(public_token)
         account = BankAccountCreate(name=item_data["account"]["name"], user=user.id, access_token=item.access_token, item_id=item.item_id)
         BankAccountCRUD.create_bank_account(db, account)
+
+    @staticmethod
+    def get_transactions(db: Session, user: User) -> list[dict]:
+        accounts = BankAccountCRUD.get_accounts_for_user(db, user.id)
+        transactions = [PlaidTransactions.sync(account.access_token) for account in accounts]
+        return transactions
