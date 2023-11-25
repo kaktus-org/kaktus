@@ -3,6 +3,7 @@ import "./App.css";
 import { Layout } from "components/Layout";
 import { Routes, Route } from "react-router-dom";
 import UsersPage from "screens/Users/Users";
+import TransactionsPage from "screens/transactions/Transactions";
 import { Home } from "screens/home";
 import RegistrationForm from "screens/signup/Signup";
 
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/users" element={<UsersPage />} />
+          <Route path="/transactions" element={<TransactionsPage />} />
         </Route>
       </Routes>
     </div>

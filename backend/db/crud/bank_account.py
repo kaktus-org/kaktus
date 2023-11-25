@@ -17,3 +17,7 @@ class BankAccountCRUD(metaclass=StaticClass):
         db.commit()
         db.refresh(db_account)
         return db_account
+
+    @staticmethod
+    def get_accounts_for_user(db: Session, user_id: int) -> list[BankAccountSchema]:
+        return db.query(BankAccount).filter(BankAccount.user == user_id)
