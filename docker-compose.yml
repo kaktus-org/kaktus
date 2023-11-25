@@ -2,8 +2,20 @@ version: '3'
 
 services:
 
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-conf:/etc/nginx/conf.d
+    depends_on:
+      - api
+      - frontend
+    networks:
+      - kaktus-network
+
   database:
-    container_name: yampacked-database
+    container_name: database
     build:
       context: ./backend
       dockerfile: ./db/Dockerfile
@@ -11,12 +23,12 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=trust # TODO: remove this
       - POSTGRES_PASSWORD=password # TODO: paramaterise this
     networks:
-      - database-network
+      - kaktus-network
     ports:
       - "5432:5432"
 
   api:
-    container_name: yampacked-api
+    container_name: api
     depends_on:
       - database
     build:
@@ -25,7 +37,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DB_HOST=yampacked-database
+      - DB_HOST=database
       - DB_NAME=db
       - DB_USER=admin
       - DB_PASSWORD=admin
@@ -33,10 +45,10 @@ services:
     volumes:
       - ./backend:/app
     networks:
-      - database-network
+      - kaktus-network
 
   frontend:
-    container_name: yampacked-frontend
+    container_name: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -46,6 +58,8 @@ services:
       - ./frontend:/app
     depends_on:
       - api
+    networks:
+      - kaktus-network
 
 networks:
-  database-network:
+  kaktus-network:
