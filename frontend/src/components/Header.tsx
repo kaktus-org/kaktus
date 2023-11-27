@@ -1,8 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./Header.css";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  useEffect(() => {
+    const token: string | null = localStorage.getItem('jwtToken');
+    const email = localStorage.getItem('userEmail');
+    setIsLoggedIn(!!token);
+    if (email) {
+      setUserEmail(email);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('userEmail');
+    setIsLoggedIn(false);
+  };
 
   return (
     <header className="bg-hunterGreen text-white font-bold">
@@ -29,14 +47,39 @@ const Header = () => {
             <a href="/beta">Beta</a>
           </li>
         </ul>
-        <ul className="hidden md:flex space-x-6">
-          <li className="text-white hover:opacity-100">
-            <a href="/login">Login</a>
-          </li>
-          <li>
-            <a href="/register" className="bg-burntOrange px-4 py-1 rounded hover:bg-lightBlue transition-colors duration-300">Register</a>
-          </li>
-        </ul>
+        
+        <div className="">
+          {!isLoggedIn ? (
+            <ul className="hidden md:flex space-x-6">
+              <li className="text-white hover:opacity-100">
+                <a href="/login">Login</a>
+              </li>
+              <li>
+                <a href="/register" className="bg-burntOrange px-4 py-1 rounded hover:bg-lightBlue transition-colors duration-300">Register</a>
+              </li>
+            </ul>
+          ) : (
+            <div className="flex items-center">
+              <button 
+                onClick={() => setShowDropdown(!showDropdown)}
+                className="text-white hover:text-gold px-4 py-2 focus:outline-none"
+              >
+                Welcome {userEmail}
+              </button>
+              {showDropdown && (
+                <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
+                  <a 
+                    href="/" 
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-hunterGreen hover:text-white"
+                    onClick={handleLogout}
+                  >
+                    Sign out
+                  </a>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* Menu for small screens */}
         {isMenuOpen && (

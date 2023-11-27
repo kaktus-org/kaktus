@@ -6,6 +6,7 @@ import UsersPage from "screens/Users/Users";
 import TransactionsPage from "screens/transactions/Transactions";
 import { Home } from "screens/home";
 import RegistrationForm from "screens/signup/Signup";
+import LoginPage from "screens/login/Login";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<RegistrationForm />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/transactions" element={<TransactionsPage />} />
         </Route>
