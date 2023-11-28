@@ -48,37 +48,47 @@ const Header = () => {
           </li>
         </ul>
         
-        <div className="">
-          {!isLoggedIn ? (
-            <ul className="hidden md:flex space-x-6">
-              <li className="text-white hover:opacity-100">
-                <a href="/login">Login</a>
-              </li>
-              <li>
-                <a href="/register" className="bg-burntOrange px-4 py-1 rounded hover:bg-lightBlue transition-colors duration-300">Register</a>
-              </li>
-            </ul>
-          ) : (
-            <div className="flex items-center">
-              <button 
-                onClick={() => setShowDropdown(!showDropdown)}
-                className="text-white hover:text-gold px-4 py-2 focus:outline-none"
-              >
-                Welcome {userEmail}
-              </button>
-              {showDropdown && (
-                <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-                  <a 
-                    href="/" 
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-hunterGreen hover:text-white"
-                    onClick={handleLogout}
-                  >
-                    Sign out
-                  </a>
-                </div>
-              )}
-            </div>
-          )}
+        <div>
+        {!isLoggedIn ? (
+          <ul className="hidden md:flex space-x-6">
+            <li className="text-white hover:opacity-100">
+              <a href="/login">Login</a>
+            </li>
+            <li>
+              <a href="/register" className="bg-burntOrange px-4 py-1 rounded hover:bg-lightBlue transition-colors duration-300">Register</a>
+            </li>
+          </ul>
+        ) : (
+          <div>
+            <button 
+              onClick={() => setShowDropdown(!showDropdown)}
+              className="text-white hover:bg-hunterGreen px-4 py-2 rounded-t focus:outline-none"
+              id="user-menu-button" 
+              aria-expanded="true" 
+              aria-haspopup="true"
+            >
+              Welcome {userEmail}
+            </button>
+            {showDropdown && (
+              <div className="absolute right-0 mt-2 py-2 bg-white rounded-md shadow-xl z-20">
+                <a 
+                  href="/profle" 
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-hunterGreen hover:text-white"
+                  onClick={ () => {return;}}
+                >
+                  Profile
+                </a>
+                <a 
+                  href="/" 
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-hunterGreen hover:text-white"
+                  onClick={handleLogout}
+                >
+                  Sign out
+                </a>
+              </div>
+            )}
+          </div>
+        )}
         </div>
 
         {/* Menu for small screens */}
