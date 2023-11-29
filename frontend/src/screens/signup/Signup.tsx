@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import "./Signup.css";
-import "api/index";
-import { api } from "api/index";
+import api from "api";
 
 interface UserRegistrationData {
     email: string;
     password: string;
 }
 
+interface RegisterUserResponse {
+  userData: JSON
+}
+
 const registerUser = async (userData: UserRegistrationData) => {
     try {
-        const response = await api.post("/users/", userData);
-        console.log("User registered:", response.data);
+        const response: RegisterUserResponse = await api.post("/users/", false, userData);
+        console.log("User registered:", response.userData);
     } catch (error) { 
         console.error("Error registering user:", error)
         // TODO: handle the error better, display error to user.

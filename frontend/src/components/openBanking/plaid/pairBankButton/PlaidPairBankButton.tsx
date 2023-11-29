@@ -1,6 +1,6 @@
 import "./PlaidPairBankButton.css";
 import { useCallback, useEffect, useState } from "react";
-import { api } from "api";
+import api from "api";
 import {
   PlaidLinkOnSuccess,
   PlaidLinkOnSuccessMetadata,
@@ -9,13 +9,20 @@ import {
 } from "react-plaid-link";
 import { Button } from "react-bootstrap";
 
+interface LinkToken {
+  data: {
+    link_token: string,
+    expiration: string
+  }
+}
+
 export const PlaidPairBankButton = () => {
-  const [linkToken, setLinkToken] = useState(null);
-  const [expiration, setExpiration] = useState(null);
+  const [linkToken, setLinkToken] = useState<null | string>(null);
+  const [expiration, setExpiration] = useState<null | string>(null);
 
   async function pairBank() {
     try {
-      const response = await api.get("banking/link-token");
+      const response: LinkToken = await api.get("banking/link-token", true);
 
       setLinkToken(response.data.link_token);
       setExpiration(response.data.expiration);
@@ -28,7 +35,7 @@ export const PlaidPairBankButton = () => {
     async (public_token: string, metadata: PlaidLinkOnSuccessMetadata) => {
       const data = { public_token: public_token, metadata: metadata };
       try {
-        await api.post("banking/access-token", data);
+        await api.post("banking/access-token", true, data);
       } catch (err) {
         console.log(err);
       }

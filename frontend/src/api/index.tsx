@@ -1,1 +1,1 @@
-export { default as api } from "./axiosConfig";
+export { http as default } from "./http"
