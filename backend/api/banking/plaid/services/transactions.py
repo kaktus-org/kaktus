@@ -1,7 +1,6 @@
 import json
 import plaid
-from plaid.models import TransactionsSyncRequest, TransactionsRecurringGetRequest, TransactionsSyncResponse, \
-    TransactionsRecurringGetResponse, CategoriesGetResponse
+from plaid.models import TransactionsSyncRequest, TransactionsRecurringGetRequest, TransactionsRecurringGetResponse, CategoriesGetResponse
 from api.banking.plaid.services.client import plaid_client
 from utils.logger import logger_config, configure_logger
 

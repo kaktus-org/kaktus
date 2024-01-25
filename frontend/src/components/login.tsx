@@ -25,7 +25,7 @@ const LoginForm = () => {
     });
 
     try {
-      const response: AccessToken = await api.post("/users/login", false, formData);
+            const response: AccessToken = await api.post("/users/login", false, formData);
       console.log(response)
       const token = response.data.access_token;
       localStorage.setItem('jwtToken', token);

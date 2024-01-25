@@ -1,10 +1,3 @@
-import React, { useState } from "react";
-import api from "api";
-
-interface TransactionProps {
-    transactionData: TransactionData
-}
-
 export interface TransactionData {
     account_id: string,
     account_owner: string,
@@ -35,14 +28,3 @@ export interface TransactionData {
     unofficial_currency_code: string,
     website: string
 }
-
-const Transaction = ({ transactionData }: TransactionProps) => {
-
-    return (
-        <div>{transactionData.amount}
-        </div>
-    );
-};
-
-export default Transaction;
-
