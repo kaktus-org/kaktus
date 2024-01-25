@@ -13,8 +13,7 @@ class PlaidLiabilities:
     def get_liabilities(access_token: str) -> dict:
         request = LiabilitiesGetRequest(access_token=access_token)
         try:
-            response: LiabilitiesGetResponse = plaid_client.liabilities_get(
-                request)
+            response: LiabilitiesGetResponse = plaid_client.liabilities_get(request, async_req=True).get()
         except plaid.ApiException as e:
             logger.error(e)
             return json.loads(e.body)

@@ -1,7 +1,6 @@
 import json
 import plaid
-from plaid.models import TransactionsSyncRequest, TransactionsRecurringGetRequest, TransactionsSyncResponse, \
-    TransactionsRecurringGetResponse, CategoriesGetResponse
+from plaid.models import TransactionsSyncRequest, TransactionsRecurringGetRequest, TransactionsSyncResponse, TransactionsRecurringGetResponse, CategoriesGetResponse
 from api.banking.plaid.services.client import plaid_client
 from utils.logger import logger_config, configure_logger
 
@@ -23,8 +22,7 @@ class PlaidTransactions:
                 cursor=cursor,
             )
             try:
-                response: TransactionsSyncResponse = plaid_client.transactions_sync(
-                    request)
+                response: TransactionsSyncResponse = plaid_client.transactions_sync(request, async_req=True).get()
             except plaid.ApiException as e:
                 logger.error(e)
                 return json.loads(e.body)
@@ -47,8 +45,7 @@ class PlaidTransactions:
             account_ids=account_ids
         )
         try:
-            response: TransactionsRecurringGetResponse = plaid_client.transactions_recurring_get(
-                request)
+            response: TransactionsRecurringGetResponse = plaid_client.transactions_recurring_get(request, async_req=True).get()
         except plaid.ApiException as e:
             logger.error(e)
             return json.loads(e.body)
@@ -62,7 +59,7 @@ class PlaidTransactions:
     @staticmethod
     def get_categories() -> dict:
         try:
-            response: CategoriesGetResponse = plaid_client.categories_get({})
+            response: CategoriesGetResponse = plaid_client.categories_get({}, async_req=True).get()
         except plaid.ApiException as e:
             logger.error(e)
             return json.loads(e.body)
