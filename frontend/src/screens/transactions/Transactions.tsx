@@ -1,25 +1,18 @@
-import React, { useState } from "react";
-import Transaction from "./Transaction";
-import { TransactionData } from "./Transaction";
+import { useState } from "react";
 import api from "api";
+import { Transactions } from "components/openBanking/Transactions";
 
-interface AccountData {
-    added: any[]
-}
-
-
-interface Transactions {
-    data: AccountData[]
+interface AccountTransactionData {
+    data: any[]
 }
 
 const TransactionsPage = () => {
-    const [transactionData, setTransactionData] = useState<AccountData[]>([]);
+    const [transactionData, setTransactionData] = useState<any[]>([]);
     const [error, setError] = useState('');
 
     const fetchTransactions = async () => {
         try {
-            const response: Transactions = await api.get('banking/transactions', true);
-            console.log(response);
+            const response: AccountTransactionData = await api.get('banking/transactions', true);
             setTransactionData(response.data);
         } catch (err) {
             console.error('Error fetching transactions:', err);
@@ -33,16 +26,7 @@ const TransactionsPage = () => {
             <button onClick={fetchTransactions}>Fetch Transactions</button>
             {error && <div>Error: {error}</div>}
             {transactionData &&
-                <ul>
-                    {transactionData.map((account) => {
-                        return <ul>
-                            {account.added.map((transaction: TransactionData) => {
-                                return <Transaction transactionData={transaction} />
-                            })}
-                        </ul>
-                    })}
-                    {/* <pre>{JSON.stringify(transactionData, null, 2)}</pre> */}
-                </ul>
+                <Transactions data={transactionData} />
             }
         </div>
     );
