@@ -74,16 +74,10 @@ const RegistrationForm = () => {
               </ul>
             </div>
             <div className="flex justify-between">
-              <button 
-                type="button" 
-                onClick={() => { /* Logic to handle back navigation */ }}
-                className="px-4 py-2 rounded text-hunterGreen hover:bg-gray-200 transition duration-300"
-              >
-                Back
-              </button>
+
               <button 
                 type="submit"
-                className="px-4 py-2 bg-hunterGreen text-white rounded hover:bg-hotOrange transition duration-300"
+                className="px-4 py-2 bg-hunterGreen text-white rounded font-bold w-full"
               >
                 Create
               </button>
