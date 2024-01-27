@@ -23,7 +23,7 @@ export const PlaidRePairBankButton = () => {
 
   async function pairBank() {
     try {
-      const response: LinkToken = await api.get("banking/update-link-token?account_name=" + bankAccountName, true);
+      const response: LinkToken = await api.get("banking/update-link-token?account_name=" + bankAccountName);
 
       setLinkToken(response.data.link_token);
       setExpiration(response.data.expiration);

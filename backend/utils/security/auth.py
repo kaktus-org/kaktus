@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 
 from fastapi import Depends
 from fastapi import HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
@@ -10,9 +9,10 @@ from db.crud.user import UserCRUD
 from db.models.users import User
 from utils.database_utils import get_db
 from utils.security.config import auth_config
+from utils.security.oauth2 import OAuth2PasswordBearerWithCookie
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")
+oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/users/login")
 
 authorisation_exception = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED,

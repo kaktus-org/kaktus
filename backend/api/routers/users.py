@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from utils.security import auth
@@ -41,9 +41,10 @@ async def read_user(user_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/login")
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = UserCRUD.get_user_by_email(db, form_data.username)
     if not user or not cryptography.verify_password(form_data.password, user.hashed_password):
         raise auth.authorisation_exception
     access_token = auth.create_jwt_token(data={"sub": user.email})
-    return {"access_token": access_token, "token_type": "bearer"}
+    # TODO: samesite = none is not best practice, investigate way round this with nginx
+    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True, samesite="none", secure=True)
