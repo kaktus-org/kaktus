@@ -21,6 +21,7 @@ const LoginPage = () => {
 
     try {
       await api.post("/users/login", formData);
+      localStorage.setItem('isLoggedIn', "true");
     } catch (error) {
       console.error("Login error:", error);
     }

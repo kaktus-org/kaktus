@@ -8,16 +8,16 @@ const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
-    const token: string | null = localStorage.getItem('jwtToken');
+    const loggedIn: string | null = localStorage.getItem('isLoggedIn');
     const email = localStorage.getItem('userEmail');
-    setIsLoggedIn(!!token);
+    setIsLoggedIn(loggedIn === "true");
     if (email) {
       setUserEmail(email);
     }
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('jwtToken');
+    localStorage.setItem('isLoggedIn', "false");
     localStorage.removeItem('userEmail');
     setIsLoggedIn(false);
   };
