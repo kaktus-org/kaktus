@@ -1,37 +1,39 @@
 import React, { useState } from "react";
-import { api } from "api/index";
+import api from "api";
 import qs from "qs";
 
+interface AccessToken {
+  data: {
+    access_token: string
+  }
+}
+
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
-  const handleLogin = async (e: any) => {
-    e.preventDefault();
+    const handleLogin = async (e: any) => {
+      e.preventDefault();
 
-    const formData = qs.stringify({
-            username: username,
-            password: password,
-            grant_type: "",
-            scope: "",
-            client_id: "",
-            client_secret: "",
-        });
+      const formData = qs.stringify({
+        username: username,
+        password: password,
+        grant_type: "",
+        scope: "",
+        client_id: "",
+        client_secret: "",
+      });
 
-        try {
-            const response = await api.post("/users/login", formData, {
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                }
-            });
-            const token = response.data.access_token;
-            localStorage.setItem("jwtToken", token);
-            localStorage.setItem("userEmail", username);
-            api.defaults.headers.common["Authorization"] = `Bearer ${token}`; // Set the token for future requests
-            window.location.href = "/";
-        } catch (error) {
-            console.error("Login error:", error);
-        }
+      try {
+              const response: AccessToken = await api.post("/users/login", false, formData);
+        console.log(response)
+        const token = response.data.access_token;
+        localStorage.setItem('jwtToken', token);
+        console.log("success");
+        console.log(token)
+      } catch (error) {
+        console.error("Login error:", error);
+      }
     };
 
     return (

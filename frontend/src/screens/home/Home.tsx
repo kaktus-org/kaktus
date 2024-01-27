@@ -1,4 +1,5 @@
 import { PairBankButton } from "components/openBanking/OpenBanking";
+import { RePairBankButton } from "components/openBanking/OpenBanking";
 
 export const Home = () => {
   return (
