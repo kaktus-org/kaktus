@@ -74,10 +74,9 @@ const RegistrationForm = () => {
               </ul>
             </div>
             <div className="flex justify-between">
-
               <button 
                 type="submit"
-                className="px-4 py-2 bg-hunterGreen text-white rounded font-bold w-full"
+                className="px-4 py-2 bg-hunterGreen text-white rounded font-bold w-full focus:outline-none focus:border-burntOrange focus:ring-2 focus:ring-burntOrange hover:bg-burntOrange transition-colors duration-300"
               >
                 Create
               </button>
