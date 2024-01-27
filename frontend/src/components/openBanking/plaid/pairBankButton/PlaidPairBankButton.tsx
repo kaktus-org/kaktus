@@ -22,7 +22,7 @@ export const PlaidPairBankButton = () => {
 
   async function pairBank() {
     try {
-      const response: LinkToken = await api.get("banking/link-token", true);
+      const response: LinkToken = await api.get("banking/link-token");
 
       setLinkToken(response.data.link_token);
       setExpiration(response.data.expiration);
@@ -35,7 +35,7 @@ export const PlaidPairBankButton = () => {
     async (public_token: string, metadata: PlaidLinkOnSuccessMetadata) => {
       const data = { public_token: public_token, metadata: metadata };
       try {
-        await api.post("banking/access-token", true, data);
+        await api.post("banking/access-token", data);
       } catch (err) {
         console.log(err);
       }

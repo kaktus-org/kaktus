@@ -12,7 +12,7 @@ const TransactionsPage = () => {
 
     const fetchTransactions = async () => {
         try {
-            const response: AccountTransactionData = await api.get('banking/transactions', true);
+            const response: AccountTransactionData = await api.get('banking/transactions');
             setTransactionData(response.data);
         } catch (err) {
             console.error('Error fetching transactions:', err);

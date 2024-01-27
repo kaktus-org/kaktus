@@ -19,6 +19,8 @@ app.include_router(users.router)
 app.include_router(banking.router)
 
 origins = [
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1",
     "http://localhost",
     "http://localhost:3000",
     "http://api.kaktus.money",

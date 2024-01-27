@@ -2,11 +2,7 @@ import Header from "components/Header";
 import "./App.css";
 import { Layout } from "components/Layout";
 import { Routes, Route } from "react-router-dom";
-import UsersPage from "screens/users/Users";
-import { Home } from "screens/home";
-import TransactionsPage from "screens/transactions/Transactions";
-import RegistrationForm from "screens/signup/Signup";
-import LoginPage from "screens/login/Login";
+import { Home, TransactionsPage, RegistrationForm, LoginPage, UsersPage } from "screens";
 
 function App() {
   return (

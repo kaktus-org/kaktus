@@ -2,8 +2,8 @@ import { AxiosRequestConfig } from "axios"
 import api from "./axiosConfig"
 
 export interface IHttpClient {
-    get<T>(url: string, requiresToken: boolean, headers?: Headers): Promise<T>
-    post<T, P>(url: string, requiresToken: boolean, payload?: P, headers?: Headers): Promise<T>
+    get<T>(url: string, headers?: Headers): Promise<T>
+    post<T, P>(url: string, payload?: P, headers?: Headers): Promise<T>
 }
 
 export interface Headers {
@@ -12,18 +12,9 @@ export interface Headers {
 
 export class AxiosHttpClient implements IHttpClient {
 
-    getOptions(requiresToken: boolean, headers?: Headers): AxiosRequestConfig {
+    getOptions(headers?: Headers): AxiosRequestConfig {
         const options: AxiosRequestConfig = {
             headers: {}
-        }
-
-        if (requiresToken) {
-            const token = localStorage.getItem('jwtToken');
-            if (token) {
-                options.headers!['Authorization'] = `Bearer ${token}`;
-            } else {
-                throw new Error('Authentication token not found');
-            }
         }
 
         if (headers) {
@@ -35,14 +26,14 @@ export class AxiosHttpClient implements IHttpClient {
         return options
     }
 
-    async post<T, P>(url: string, requiresToken = false, payload?: P, headers?: Headers): Promise<T> {
-        const options = this.getOptions(requiresToken, headers);
+    async post<T, P>(url: string, payload?: P, headers?: Headers): Promise<T> {
+        const options = this.getOptions(headers);
 
         return api.post(url, payload, options)
     }
 
-    async get<T>(url: string, requiresToken = false, headers?: Headers): Promise<T> {
-        const options = this.getOptions(requiresToken, headers)
+    async get<T>(url: string, headers?: Headers): Promise<T> {
+        const options = this.getOptions(headers)
 
         return api.get(url, options)
     }
