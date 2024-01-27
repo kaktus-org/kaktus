@@ -65,7 +65,7 @@ const LoginPage = () => {
                 <a href="/forgot-password" className="text-sm text-hunterGreen hover:text-gold">Forgot password?</a>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-hunterGreen text-white font-bold rounded hover:bg-gold"
+                  className="px-4 py-2 bg-hunterGreen text-white font-bold rounded focus:outline-none focus:border-burntOrange focus:ring-2 focus:ring-burntOrange hover:bg-burntOrange transition-colors duration-300"
                 >
                   Log in
                 </button>
