@@ -53,16 +53,18 @@ export const PlaidRePairBankButton = () => {
   }, [ready, exit, open, expiration]);
 
   return (
-    <div>
-      <Button type="button" onClick={pairBank}>
+    <div className="flex items-start">
+      <div className="bg-burntOrange mx-auto px-3 py-3 rounded hover:bg-lightBlue transition-colors duration-300 inline-block m-1 cursor-pointer" onClick={pairBank}>
         Re-Pair Bank
-      </Button>
+      </div>
       <input
         type="text"
+        className="flex-grow px-3 p-3 border border-gray-300 rounded m-1"
         value={bankAccountName}
         onChange={(e) => setBankAccountName(e.target.value)}
         required
       />
     </div>
+
   );
 };

@@ -22,7 +22,6 @@ export const Transaction = ({ transactionData }: TransactionProps) => {
                 <p className="text-lg">Amount: {transactionData.amount}</p>
                 <p className="text-lg">Date: {transactionData.date}</p>
                 <p className="text-lg">Merchant: {transactionData.merchant_name}</p>
-                <p className="text-lg">Transaction Type: {transactionData.transaction_type}</p>
             </div>
         </div>
     );

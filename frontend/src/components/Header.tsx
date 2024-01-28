@@ -72,6 +72,13 @@ const Header = () => {
               {showDropdown && (
                 <div className="absolute right-0 mt-2 py-2 bg-white rounded-md shadow-xl z-20">
                   <a
+                    href="/dashboard"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-hunterGreen hover:text-white"
+                    onClick={() => { return; }}
+                  >
+                    Dashboard
+                  </a>
+                  <a
                     href="/profle"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-hunterGreen hover:text-white"
                     onClick={() => { return; }}
@@ -110,7 +117,7 @@ const Header = () => {
                     <a href="/login">Login</a>
                   </li>
                   <li>
-                    <a href="/register" className="bg-gold mx-auto px-4 py-1 rounded hover:bg-lightBlue transition-colors duration-300 inline-block">Register</a>
+                    <a href="/register" className="bg-burntOrange mx-auto px-4 py-1 rounded hover:bg-lightBlue transition-colors duration-300 inline-block">Register</a>
                   </li>
                 </div>)}
             </ul>

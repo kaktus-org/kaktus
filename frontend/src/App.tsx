@@ -2,7 +2,7 @@ import Header from "components/Header";
 import "./App.css";
 import { Layout } from "components/Layout";
 import { Routes, Route } from "react-router-dom";
-import { Home, TransactionsPage, RegistrationForm, LoginPage, UsersPage } from "screens";
+import { Home, TransactionsPage, RegistrationForm, LoginPage, UsersPage, DashboardPage } from "screens";
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/transactions" element={<TransactionsPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
         </Route>
       </Routes>
     </div>
