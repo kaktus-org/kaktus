@@ -1,5 +1,3 @@
-import { PairBankButton } from "components/openBanking/OpenBanking";
-import { RePairBankButton } from "components/openBanking/OpenBanking";
 import "./Home.css"
 
 

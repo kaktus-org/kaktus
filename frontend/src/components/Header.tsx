@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import api from "api";
 import "./Header.css";
 
 const Header = () => {
@@ -16,7 +17,13 @@ const Header = () => {
     }
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await api.post("/users/logout");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+
     localStorage.setItem('isLoggedIn', "false");
     localStorage.removeItem('userEmail');
     setIsLoggedIn(false);

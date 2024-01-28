@@ -46,6 +46,7 @@ services:
       - ./backend:/app
     networks:
       - kaktus-network
+    env_file: .env
 
   frontend:
     container_name: frontend
