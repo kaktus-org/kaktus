@@ -2,7 +2,7 @@
 
 ## Running the Development Server
 
-You should be able to run all development services simply with docker. Just run:
+Once configuring the .env file, you should be able to run all development services simply with docker. Just run:
 
 ```
 docker compose up

@@ -48,7 +48,6 @@ function DashboardPage() {
     const fetchBankAccounts = async () => {
         try {
             const response: AllBankAccountData = await api.get('banking/account-info');
-            console.log(response)
             setBankAccountData(response.data);
         } catch (err) {
             console.error('Error fetching Accounts:', err);

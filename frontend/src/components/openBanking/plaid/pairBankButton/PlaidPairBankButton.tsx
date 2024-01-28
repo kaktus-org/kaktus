@@ -7,7 +7,6 @@ import {
   PlaidLinkOptions,
   usePlaidLink,
 } from "react-plaid-link";
-import { Button } from "react-bootstrap";
 
 interface LinkToken {
   data: {

@@ -18,7 +18,7 @@ router = APIRouter(
 
 
 @router.get("/link-token")
-async def get_link_token(user: User = Depends(get_current_user)):
+async def get_link_token(_: User = Depends(get_current_user)):
     return BankingAPI.get_link_token()
 
 
