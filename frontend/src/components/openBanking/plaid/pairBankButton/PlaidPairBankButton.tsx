@@ -57,10 +57,8 @@ export const PlaidPairBankButton = () => {
   }, [ready, exit, open, expiration]);
 
   return (
-    <div>
-      <Button type="button" onClick={pairBank}>
-        Pair Bank
-      </Button>
+    <div className="bg-burntOrange mx-auto px-4 py-2 rounded hover:bg-lightBlue transition-colors duration-300 inline-block cursor-pointer" onClick={pairBank}>
+      Pair Bank
     </div>
   );
 };

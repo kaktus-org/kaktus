@@ -1,11 +1,13 @@
 import { useState } from "react";
 import api from "api";
 import qs from "qs";
+import { useNavigate } from "react-router-dom";
 
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
@@ -22,6 +24,8 @@ const LoginPage = () => {
     try {
       await api.post("/users/login", formData);
       localStorage.setItem('isLoggedIn', "true");
+      localStorage.setItem('userEmail', username);
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login error:", error);
     }
