@@ -15,19 +15,21 @@ const Header = () => {
     if (email) {
       setUserEmail(email);
     }
+    console.log("refreshing header stuff")
   }, []);
 
   const handleLogout = async () => {
     try {
       await api.post("/users/logout");
+      localStorage.setItem('isLoggedIn', "false");
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('X-CSRF-TOKEN');
+      setUserEmail("");
+      setIsLoggedIn(false);
+      console.log("Logged out supposedly")
     } catch (error) {
       console.error("Logout error:", error);
     }
-
-    localStorage.setItem('isLoggedIn', "false");
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('X-CSRF-TOKEN');
-    setIsLoggedIn(false);
   };
 
   return (

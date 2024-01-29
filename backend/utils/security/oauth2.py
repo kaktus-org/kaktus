@@ -19,7 +19,7 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
                     detail="Not authenticated",
-                    headers={"WWW-Authenticate": "Bearer"},
+                    headers={"WWW-Authenticate": "Bearer"}, # TODO: this shouldn't even be using bearer anymore as we are using cookies for auth. can remove this logic, will need to remove bearer from cookies as well.
                 )
             else:
                 return

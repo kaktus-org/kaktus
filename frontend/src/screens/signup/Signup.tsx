@@ -26,11 +26,11 @@ const RegistrationForm = () => {
   const [password, setPassword] = useState("");
 
   const passwordRequirements = {
-    minLength: password.length >= 8,
-    specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
-    lowercase: /[a-z]/.test(password),
-    uppercase: /[A-Z]/.test(password),
-    number: /[0-9]/.test(password),
+    minLength: true, // password.length >= 8,
+    specialChar: true, // /[!@#$%^&*(),.?": true, //{}|<>]/.test(password),
+    lowercase: true, // /[a-z]/.test(password),
+    uppercase: true, // /[A-Z]/.test(password),
+    number: true, // /[0-9]/.test(password),
   };
 
   const handleRegister = async (e: any) => {

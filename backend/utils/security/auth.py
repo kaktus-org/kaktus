@@ -1,4 +1,6 @@
 from datetime import datetime, timedelta
+import uuid
+from db.models.refresh_tokens import RefreshToken
 
 from fastapi import Depends, HTTPException, status
 from jose import JWTError, jwt
@@ -40,12 +42,30 @@ async def get_current_user(token: str = Depends(oauth2_scheme), csrf_token: str 
     return user
 
 
-def create_jwt_token(data: dict, roles: list) -> str:
-    to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(minutes=auth_config.access_token_expire_mins)
-    to_encode.update({"exp": expire, "roles": roles})
-    encoded_jwt = jwt.encode(to_encode, auth_config.secret_key, algorithm=auth_config.algorithm)
-    return encoded_jwt
+def generate_tokens(user: User, roles: list) -> (str, str):
+    access_token_expires = timedelta(minutes=auth_config.access_token_expire_mins)
+    refresh_token_expires = timedelta(days=auth_config.refresh_token_expires_days)
+
+    access_token_str: str = jwt.encode({
+        "sub": user.email,
+        "roles": roles,
+        "exp": datetime.utcnow() + access_token_expires,
+    }, auth_config.secret_key, algorithm=auth_config.algorithm)
+
+    refresh_token_jti: str = str(uuid.uuid4())
+    refresh_token_str: str = jwt.encode({
+        "sub": user.email,
+        "jti": refresh_token_jti,
+        "exp": datetime.utcnow() + refresh_token_expires,
+    }, auth_config.secret_key, algorithm=auth_config.algorithm)
+
+    refresh_token = RefreshToken(
+        user_id=user.id,
+        token_jti=refresh_token_jti,
+        expires_at=datetime.utcnow() + refresh_token_expires,
+    )
+
+    return access_token_str, refresh_token_str, refresh_token
 
 
 def create_csrf_token(data: dict) -> str:
