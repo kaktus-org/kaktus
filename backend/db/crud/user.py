@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import NoResultFound
 
 from db.models.users import User
+from db.models.roles import Roles
 from db.schemas.user import UserCreate
 from utils.statics import StaticClass
 from utils.security import cryptography
@@ -34,3 +36,38 @@ class UserCRUD(metaclass=StaticClass):
         db.commit()
         db.refresh(user)
         return user
+
+    def assign_role_to_user(db: Session, user_id: int, role_name: str):
+        try:
+            user = UserCRUD.get_user(db, user_id)
+            role = db.query(Roles).filter(Roles.name == role_name).first()
+        except NoResultFound:
+            return None
+
+        if user and role:
+            if role not in user.roles:
+                user.roles.append(role)
+                db.commit()
+        return user
+
+    @staticmethod
+    def remove_role_from_user(db: Session, user_id: int, role_name: str):
+        try:
+            user = UserCRUD.get_user(db, user_id)
+            role = db.query(Roles).filter(Roles.name == role_name).first()
+        except NoResultFound:
+            return None
+
+        if user and role:
+            if role in user.roles:
+                user.roles.remove(role)
+                db.commit()
+        return user
+
+    @staticmethod
+    def get_user_roles(db: Session, user_id: int):
+        try:
+            user = UserCRUD.get_user(db, user_id)
+            return [role.name for role in user.roles] if user else []
+        except NoResultFound:
+            return None
