@@ -22,10 +22,13 @@ class UserCRUD(metaclass=StaticClass):
         return db.query(User).offset(skip).limit(limit).all()
 
     @staticmethod
-    def create_user(db: Session, user: UserCreate):
+    def create_user(db: Session, user: UserCreate, roles: list = ["user"]):
         hashed_password = cryptography.hash_password(user.password)
         db_user = User(email=user.email, hashed_password=hashed_password, is_active=True)
         db.add(db_user)
+        db.flush()
+        for role in roles:
+            UserCRUD.assign_role_to_user(db, db_user.id, role)
         db.commit()
         db.refresh(db_user)
         return db_user

@@ -14,3 +14,4 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     income_token = Column(String, unique=True, index=True)
     roles = relationship("Roles", secondary=user_roles, back_populates="users")
+    refresh_tokens = relationship("RefreshToken", back_populates="user")
