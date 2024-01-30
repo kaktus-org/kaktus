@@ -16,6 +16,7 @@ export class AxiosHttpClient implements IHttpClient {
         const options: AxiosRequestConfig = {
             headers: {}
         }
+        options.headers!["X-CSRF-TOKEN"] = `Bearer ${localStorage.getItem("crsf")}`;
 
         if (headers) {
             if (headers.contentType) {
