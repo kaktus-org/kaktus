@@ -3,6 +3,10 @@ import api from "api";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 
+interface loginResponse {
+  data: string
+}
+
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -22,7 +26,8 @@ const LoginPage = () => {
     });
 
     try {
-      await api.post("/users/login", formData);
+      const response: loginResponse = await api.post("/users/login", formData);
+      localStorage.setItem('crsf', response.data);
       localStorage.setItem('isLoggedIn', "true");
       localStorage.setItem('userEmail', username);
       navigate("/dashboard");

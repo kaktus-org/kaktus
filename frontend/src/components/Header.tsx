@@ -26,6 +26,7 @@ const Header = () => {
 
     localStorage.setItem('isLoggedIn', "false");
     localStorage.removeItem('userEmail');
+    localStorage.removeItem('X-CSRF-TOKEN');
     setIsLoggedIn(false);
   };
 

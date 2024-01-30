@@ -46,8 +46,10 @@ async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depen
     if not user or not cryptography.verify_password(form_data.password, user.hashed_password):
         raise auth.authorisation_exception
     access_token = auth.create_jwt_token(data={"sub": user.email})
+    csrf_token = auth.create_csrf_token(data={"sub": user.email})
     # TODO: samesite = none is not best practice, investigate way round this with nginx
     response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True, samesite="none", secure=True)
+    return csrf_token
 
 
 @router.post("/logout")
