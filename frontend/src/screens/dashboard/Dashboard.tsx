@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from "api";
 import { Transactions } from "components/openBanking/Transactions";
 import { BankAccounts } from "components/openBanking/bankAccounts";
-import { PairBankButton, RePairBankButton } from 'components/openBanking/OpenBanking';
+import { PairBankButton, RePairBankButton, IncomeVerificationButton, PairLiabilityButton } from 'components/openBanking/OpenBanking';
 
 interface AllTransactionData {
     data: AccountTransactionData[]
@@ -60,7 +60,7 @@ function DashboardPage() {
             <div className="max-w-3xl mx-auto bg-white p-8 rounded-md shadow-lg">
                 <h2 className="text-3xl font-semibold mb-4">Welcome, {userEmail}!</h2>
 
-                <div className="mb-8">
+                <div className="mb-8 shadow-lg p-4 rounded-lg">
                     <h3 className="text-xl font-semibold mb-4">Bank Accounts</h3>
                     {!BankAccountData && !error && <div className="flex items-center justify-center">
                         <div className="animate-spin rounded-full border-t-4 border-hunterGreen border-solid h-12 w-12"></div>
@@ -69,14 +69,14 @@ function DashboardPage() {
                     {BankAccountData &&
                         <div>
                             <ul>
-                                {BankAccountData.slice(0, 1).map((accounts: BankAccountData) => {
-                                    return <BankAccounts data={accounts.accounts.slice(0, 3)} />
+                                {BankAccountData.slice(0, 2).map((accounts: BankAccountData) => {
+                                    return <BankAccounts data={accounts.accounts} />
                                 })}
                             </ul>
                         </div>}
                 </div>
 
-                <div className="mb-8">
+                <div className="mb-8 shadow-lg p-4 rounded-lg">
                     <h3 className="text-xl font-semibold mb-4">Recent Transactions</h3>
                     {!transactionData && !error && <div className="flex items-center justify-center">
                         <div className="animate-spin rounded-full border-t-4 border-hunterGreen border-solid h-12 w-12"></div>
@@ -92,9 +92,11 @@ function DashboardPage() {
                         </div>}
                 </div>
 
-                <div>
+                <div className='shadow-lg p-4 rounded-lg'>
                     <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
                     <PairBankButton />
+                    <IncomeVerificationButton />
+                    <PairLiabilityButton />
                     <RePairBankButton />
                     <ul className="flex flex-wrap gap-4">
                         <li className="bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600 transition">

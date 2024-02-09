@@ -12,6 +12,7 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     is_active: bool
+    income_token: str
 
     class Config:
         from_attributes = True

@@ -1,4 +1,4 @@
-import "./PlaidPairBankButton.css";
+import "./PlaidPairLiabilityButton.css";
 import { useCallback, } from "react";
 import api from "api";
 import {
@@ -7,7 +7,7 @@ import {
 } from "react-plaid-link";
 import { PlaidLinkButtonTemplate } from "components/openBanking/plaid";
 
-export const PlaidPairBankButton = () => {
+const PlaidPairLiabilityButton = () => {
 
   const onSuccess = useCallback<PlaidLinkOnSuccess>(
     async (public_token: string, metadata: PlaidLinkOnSuccessMetadata) => {
@@ -22,6 +22,8 @@ export const PlaidPairBankButton = () => {
   );
 
   return (
-    <PlaidLinkButtonTemplate buttonText="Pair Bank" getLinkEndpoint="banking/link-token" onSuccess={onSuccess} />
+    <PlaidLinkButtonTemplate buttonText="Pair Liability" getLinkEndpoint="banking/liability-link-token" onSuccess={onSuccess} />
   );
 };
+
+export default PlaidPairLiabilityButton;
