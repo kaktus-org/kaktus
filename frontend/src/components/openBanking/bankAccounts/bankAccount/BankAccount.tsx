@@ -21,7 +21,7 @@ const BankAccount = ({ bankAccountData }: BankAccountProps) => {
     };
 
     return (
-        <div className="bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 p-8 rounded-lg shadow-md text-white m-4">
+        <div className="bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 p-8 rounded-lg shadow-md text-white mb-4">
             <h2 className="text-5xl font-bold mb-4">{bankAccountData.name}</h2>
             <p className="text-lg mb-2">{bankAccountData.official_name}</p>
             <p className="text-3xl font-bold mb-4">

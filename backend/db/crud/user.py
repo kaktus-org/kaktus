@@ -27,3 +27,10 @@ class UserCRUD(metaclass=StaticClass):
         db.commit()
         db.refresh(db_user)
         return db_user
+
+    @staticmethod
+    def add_income_token(db: Session, user: User, income_token: str) -> User:
+        user.income_token = income_token
+        db.commit()
+        db.refresh(user)
+        return user
