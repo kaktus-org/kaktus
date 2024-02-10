@@ -13,7 +13,11 @@ engine = create_engine(
     database_config.get_db_url()
 )
 
-logger.info(f"Creating local session '{engine.url}'")
+if database_config.db_env == "local":
+    logger.info(f"Creating local session '{engine.url}'")
+elif database_config.db_env == "live":
+    logger.info(f"Connecting to live session '{engine.url}'")
+
 SessionLocal: Session = sessionmaker(
     autocommit=False, autoflush=False, bind=engine)
 

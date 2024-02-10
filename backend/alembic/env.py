@@ -1,3 +1,4 @@
+import sys
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -10,6 +11,16 @@ from db.config import database_config
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+if database_config.db_env == "live":
+    print(f"Warning: Using live session: {database_config.get_db_url()}")
+    while True:
+        print("Are you sure you want to continue: (y/n)")
+        response = input().lower()
+        if response == "y":
+            break
+        if response == "n":
+            sys.exit(0)
 
 config.set_main_option('sqlalchemy.url', database_config.get_db_url())
 
