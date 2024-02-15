@@ -25,6 +25,7 @@ origins = [
     "http://localhost:3000",
     "http://api.kaktus.money",
     "http://kaktus.money",
+    "https://kaktus.money",
     "http://portal.kaktus.money",
 ]
 

@@ -10,4 +10,4 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
-    income_token = Column(String, unique=True, index=True)
+    income_token = Column(String, unique=True, nullable=True)
