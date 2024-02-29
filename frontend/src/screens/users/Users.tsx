@@ -11,7 +11,7 @@ const UsersPage = () => {
 
   const handleFetchUsers = async () => {
     try {
-      const response: UserDataResponse = await api.get('/users');
+      const response: UserDataResponse = await api.get('/users/');
       setUserData(JSON.stringify(response.data, null, 2));
     } catch (err) {
       console.error('Error fetching users:', err);
