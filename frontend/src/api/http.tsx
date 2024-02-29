@@ -72,6 +72,7 @@ export class AxiosHttpClient implements IHttpClient {
             }
         );
 
+    }
 }
 
 export const http = new AxiosHttpClient()
