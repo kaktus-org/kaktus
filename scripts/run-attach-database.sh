@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CONTAINER_NAME="yampacked-database"
+CONTAINER_NAME="database"
 DATABASE_NAME="db"
 USERNAME="admin"
 COMMAND="psql -d ${DATABASE_NAME} -U ${USERNAME}"
