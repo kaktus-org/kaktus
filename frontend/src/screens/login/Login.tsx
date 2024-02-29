@@ -27,9 +27,9 @@ const LoginPage = () => {
 
     try {
       const response: loginResponse = await api.post("/users/login", formData);
-      localStorage.setItem('crsf', response.data);
-      localStorage.setItem('isLoggedIn', "true");
-      localStorage.setItem('userEmail', username);
+      localStorage.setItem('csrf', response.data);
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userEmail", username);
       navigate("/dashboard");
     } catch (error) {
       console.error("Login error:", error);
