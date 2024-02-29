@@ -26,6 +26,7 @@ const LoginPage = () => {
     });
 
     try {
+      console.log("trying to login");
       const response: loginResponse = await api.post("/users/login", formData);
       localStorage.setItem('csrf', response.data);
       localStorage.setItem("isLoggedIn", "true");
