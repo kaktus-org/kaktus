@@ -42,7 +42,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme), csrf_token: str 
     return user
 
 
-def generate_tokens(user: User, roles: list) -> (str, str):
+def generate_auth_tokens(user: User, roles: list) -> (str, str):
     access_token_expires = timedelta(minutes=auth_config.access_token_expire_mins)
     refresh_token_expires = timedelta(days=auth_config.refresh_token_expires_days)
 

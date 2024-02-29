@@ -52,27 +52,16 @@ async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depen
     user: User = UserCRUD.get_user_by_email(db, form_data.username)
     if not user or not cryptography.verify_password(form_data.password, user.hashed_password):
         raise auth.authorisation_exception
+
     csrf_token = auth.create_csrf_token(data={"sub": user.email})
-    access_token = auth.create_jwt_token(data={"sub": user.email}, roles=UserCRUD.get_user_roles(db, user.id))
-    # TODO: samesite = none is not best practice, investigate way round this with nginx
-    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True, samesite="none", secure=True)
-    return csrf_token
-
-
-@router.post("/logout")
-async def logout(response: Response, _: User = Depends(auth.get_current_user)):
-    # TODO: samesite = none is not best practice, investigate way round this with nginx
-    response.set_cookie(key="access_token", value="", httponly=True, samesite="none", secure=True)
-
-    access_token_str, refresh_token_str, refresh_token = auth.generate_tokens(user, UserCRUD.get_user_roles(db, user.id))
-
+    access_token_str, refresh_token_str, refresh_token = auth.generate_auth_tokens(user, UserCRUD.get_user_roles(db, user.id))
     RefreshTokenCRUD.create_refresh_token(db, refresh_token)
 
     # TODO: samesite = none is not best practice, investigate way round this with nginx
     response.set_cookie(key="access_token", value=f"Bearer {access_token_str}", httponly=True, samesite="none", secure=True)
     response.set_cookie(key="refresh_token", value=f"Bearer {refresh_token_str}", httponly=True, samesite="none", secure=True)
 
-    return {"message": "Login successful"}
+    return csrf_token
 
 
 @router.post("/logout")
@@ -82,6 +71,3 @@ async def logout(response: Response, user: User = Depends(auth.get_current_user)
     response.delete_cookie("refresh_token", secure=True, samesite="none")
 
     return {"message": "Logged out successfully"}
-
-
-    # TODO: refresh endpoint
