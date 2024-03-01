@@ -1,32 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import api from "api";
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from 'store';
+import { logout } from "features/auth/authSlice";
 import "./Header.css";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userEmail, setUserEmail] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
-
-  useEffect(() => {
-    const loggedIn: string | null = localStorage.getItem('isLoggedIn');
-    const email = localStorage.getItem('userEmail');
-    setIsLoggedIn(loggedIn === "true");
-    if (email) {
-      setUserEmail(email);
-    }
-    console.log("refreshing header stuff")
-  }, []);
+  const { isLoggedIn, userEmail } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
     try {
-      await api.post("/users/logout");
-      localStorage.setItem('isLoggedIn', "false");
-      localStorage.removeItem('userEmail');
-      localStorage.removeItem('X-CSRF-TOKEN');
-      setUserEmail("");
-      setIsLoggedIn(false);
-      console.log("Logged out supposedly")
+      dispatch(logout());
     } catch (error) {
       console.error("Logout error:", error);
     }
