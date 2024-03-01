@@ -12,6 +12,7 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
 
     async def __call__(self, request: Request) -> str | None:
         authorization: str = request.cookies.get("access_token")
+        print("authorization is hehe: ", authorization)
 
         scheme, param = get_authorization_scheme_param(authorization)
         if not authorization or scheme.lower() != "bearer":
@@ -19,7 +20,7 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
                     detail="Not authenticated",
-                    headers={"WWW-Authenticate": "Bearer"}, # TODO: this shouldn't even be using bearer anymore as we are using cookies for auth. can remove this logic, will need to remove bearer from cookies as well.
+                    headers={"WWW-Authenticate": "Bearer"},  # TODO: this shouldn't even be using bearer anymore as we are using cookies for auth. can remove this logic, will need to remove bearer from cookies as well.
                 )
             else:
                 return

@@ -1,5 +1,6 @@
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
+import { AxiosError, AxiosRequestConfig, AxiosResponse, HttpStatusCode } from "axios"
 import api from "./axiosConfig"
+import { ConsumerReportPermissiblePurpose } from "plaid"
 
 export interface IHttpClient {
     get<T>(url: string, headers?: Headers): Promise<T>
@@ -41,27 +42,21 @@ export class AxiosHttpClient implements IHttpClient {
 
     initializeResponseInterceptor(): void {
         api.interceptors.response.use(
-            (response: AxiosResponse) => response, // This function handles successful responses
+            (response: AxiosResponse) => response,
             async (error: AxiosError) => {
                 const originalRequest: AxiosRequestConfig = error.config as AxiosRequestConfig;
 
-                // Check if the error is due to an expired access token
                 if (error.response?.status === 401 && !originalRequest._retry) {
                     originalRequest._retry = true; // Marking that we've already tried refreshing the token
 
-                    try {
-                        // Attempt to get a new access token by calling the refresh endpoint
+                    try { // TODO: clean this all up
                         const { data } = await api.post('/users/refresh', {}, { withCredentials: true });
-                        const newAccessToken = data.accessToken; // Adjust based on your API response
 
-                        // Update the authorization header with the new token
-                        if (api.defaults.headers && newAccessToken) {
-                            api.defaults.headers.common['Authorization'] = 'Bearer ' + newAccessToken;
-                        }
+                        localStorage.setItem('csrf', data);
 
-                        // Retry the original request with the new token
                         return api(originalRequest);
                     } catch (refreshError) {
+                        console.log("Failed to refreshs token");
                         console.error('Unable to refresh token', refreshError);
                         return Promise.reject(refreshError);
                     }
@@ -71,8 +66,8 @@ export class AxiosHttpClient implements IHttpClient {
                 return Promise.reject(error);
             }
         );
-
     }
 }
 
 export const http = new AxiosHttpClient()
+http.initializeResponseInterceptor();

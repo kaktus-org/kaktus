@@ -68,6 +68,14 @@ def generate_auth_tokens(user: User, roles: list) -> (str, str):
     return access_token_str, refresh_token_str, refresh_token
 
 
+def extract_jti_from_token(token: str) -> str:
+    try:
+        payload = jwt.decode(token, auth_config.secret_key, algorithms=[auth_config.algorithm])
+        return payload.get("jti")
+    except JWTError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+
+
 def create_csrf_token(data: dict) -> str:
     to_encode = data.copy()
     expire = datetime.utcnow() + timedelta(minutes=auth_config.access_token_expire_mins)
@@ -90,6 +98,10 @@ def verify_token(token: str) -> (str, list):
         return email, roles
     except JWTError:
         raise authorisation_exception
+
+
+def is_refresh_token_valid(refresh_token: RefreshToken) -> bool:
+    return refresh_token and not refresh_token.revoked and (datetime.utcnow() < refresh_token.expires_at)
 
 
 def verify_csrf_token(csrf_token: str) -> str:
