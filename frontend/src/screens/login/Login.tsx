@@ -1,36 +1,18 @@
 import { useState } from "react";
-import api from "api";
-import qs from "qs";
 import { useNavigate } from "react-router-dom";
-
-interface loginResponse {
-  data: string
-}
-
+import { login } from "features/auth/authSlice";
+import { useAppDispatch } from "hooks";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const handleLogin = async (e: any) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const formData = qs.stringify({
-      username: username,
-      password: password,
-      grant_type: "",
-      scope: "",
-      client_id: "",
-      client_secret: "",
-    });
-
     try {
-      console.log("trying to login");
-      const response: loginResponse = await api.post("/users/login", formData);
-      localStorage.setItem('csrf', response.data);
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userEmail", username);
+      await dispatch(login({ username, password })).unwrap();
       navigate("/dashboard");
     } catch (error) {
       console.error("Login error:", error);

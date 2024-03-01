@@ -24,7 +24,7 @@ router = APIRouter(
 @router.get("/")
 async def read_users(skip: int = 0,
                      limit: int = 100,
-                     _: User = Depends(auth.has_permission(["Admin"])),  # TODO: make use of the RoleName enum
+                     _: User = Depends(auth.has_permission(["admin"])),  # TODO: make use of the RoleName enum
                      db: Session = Depends(get_db)):
     users = UserCRUD.get_users(db=db, skip=skip, limit=limit)
     return users
