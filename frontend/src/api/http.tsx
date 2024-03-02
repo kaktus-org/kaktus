@@ -52,7 +52,7 @@ export class AxiosHttpClient implements IHttpClient {
                     try { // TODO: clean this all up
                         const { data } = await api.post('/users/refresh', {}, { withCredentials: true });
 
-                        localStorage.setItem('csrf', data);
+                        localStorage.setItem('csrf', data.csrf);
                         originalRequest.headers = originalRequest.headers ?? {};
                         originalRequest.headers["X-CSRF-TOKEN"] = `Bearer ${data}`;
 
