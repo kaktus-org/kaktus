@@ -1,11 +1,12 @@
-from db.models.refresh_tokens import RefreshToken
 from fastapi import APIRouter, Depends, HTTPException, status, Response, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from utils.security import auth
+from typing import List
 
 from db.crud.user import UserCRUD
 from db.crud.refresh_token import RefreshTokenCRUD
+from db.models.refresh_tokens import RefreshToken
 from db.schemas.user import User, UserCreate
 from db.schemas.role import RoleName  # noqa
 from utils.database_utils import get_db
@@ -53,6 +54,7 @@ async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depen
         raise auth.authorisation_exception
 
     csrf_token = auth.create_csrf_token(data={"sub": user.email})
+    user_roles: List[str] = UserCRUD.get_user_roles(db, user.id)
     access_token_str, refresh_token_str, refresh_token = auth.generate_auth_tokens(user, UserCRUD.get_user_roles(db, user.id))
     RefreshTokenCRUD.create_refresh_token(db, refresh_token)
 
@@ -60,7 +62,7 @@ async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depen
     response.set_cookie(key="access_token", value=f"Bearer {access_token_str}", httponly=True, samesite="none", secure=True)
     response.set_cookie(key="refresh_token", value=f"Bearer {refresh_token_str}", httponly=True, samesite="none", secure=True)
 
-    return csrf_token
+    return {"csrf": csrf_token, "isAdmin": "admin" in user_roles}
 
 
 @router.post("/logout")
@@ -86,6 +88,7 @@ async def refresh_token(request: Request, response: Response, db: Session = Depe
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
 
     csrf_token = auth.create_csrf_token(data={"sub": user.email})
+    user_roles: List[str] = UserCRUD.get_user_roles(db, user.id)
     access_token_str, new_refresh_token_str, new_refresh_token = auth.generate_auth_tokens(user, UserCRUD.get_user_roles(db, user.id))
 
     RefreshTokenCRUD.delete_refresh_token(db, token_jti)
@@ -93,4 +96,5 @@ async def refresh_token(request: Request, response: Response, db: Session = Depe
 
     response.set_cookie(key="access_token", value=f"Bearer {access_token_str}", httponly=True, samesite="none", secure=True)
     response.set_cookie(key="refresh_token", value=f"Bearer {new_refresh_token_str}", httponly=True, samesite="none", secure=True)
-    return csrf_token
+
+    return {"csrf": csrf_token, "isAdmin": "admin" in user_roles}
