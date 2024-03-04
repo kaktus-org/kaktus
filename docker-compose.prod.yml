@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+
+  nginx:
+    build:
+      context: ./nginx-conf
+      dockerfile: ./Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8000:8000"
+    volumes:
+      - ./nginx-conf:/etc/nginx/conf.d
+    depends_on:
+      - api
+      - frontend
+    networks:
+      - kaktus-network
+
+  database:
+    container_name: database
+    build:
+      context: ./backend
+      dockerfile: ./db/Dockerfile
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust # TODO: remove this
+      - POSTGRES_PASSWORD=password # TODO: paramaterise this
+    networks:
+      - kaktus-network
+    ports:
+      - "5432:5432"
+
+  api:
+    container_name: api
+    depends_on:
+      - database
+    build:
+      context: ./backend
+      dockerfile: ./api/Dockerfile
+    environment:
+      - LOCAL_DB_HOST=database
+      - LOCAL_DB_NAME=db
+      - LOCAL_DB_USER=admin
+      - LOCAL_DB_PASSWORD=admin
+      - API_HOST=0.0.0.0
+    volumes:
+      - ./backend:/app
+    networks:
+      - kaktus-network
+    env_file: .env
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - api
+    networks:
+      - kaktus-network
+
+networks:
+  kaktus-network:
