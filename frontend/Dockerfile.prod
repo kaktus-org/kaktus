@@ -1,0 +1,14 @@
+FROM node:16
+
+WORKDIR /app
+COPY package.json yarn.lock /app/
+
+RUN \
+    yarn install && \
+    yarn global add serve
+
+COPY . /app
+
+RUN yarn build
+
+CMD [ "serve", "-s", "build"]

@@ -2,8 +2,14 @@ import { useState, useEffect } from 'react';
 import api from 'api';
 import AddUser from 'components/admin/AddUser';
 
+interface User {
+  id: number
+  email: string
+  name: string
+}
+
 const Users = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<Array<User>>([]);
   const [page, setPage] = useState(0);
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const limit = 10;
@@ -60,16 +66,16 @@ const Users = () => {
         </button>
       </div>
 
-        <button onClick={() => setShowAddUserModal(true)} className="...">Add User</button>
-        {showAddUserModal && (
-            <AddUser
-            onUserAdded={() => {
-                fetchUsers(page * limit, limit);
-                setShowAddUserModal(false);
-            }}
-            onClose={() => setShowAddUserModal(false)}
-            />
-        )}
+      <button onClick={() => setShowAddUserModal(true)} className="...">Add User</button>
+      {showAddUserModal && (
+        <AddUser
+          onUserAdded={() => {
+            fetchUsers(page * limit, limit);
+            setShowAddUserModal(false);
+          }}
+          onClose={() => setShowAddUserModal(false)}
+        />
+      )}
 
     </div>
   );
