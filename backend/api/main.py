@@ -45,5 +45,8 @@ async def root():
 
 
 def start():
-    uvicorn.run("api.main:app", host=api_config.host,
-                port=api_config.port, reload=True)
+    uvicorn.run("api.main:app", host=api_config.host, port=api_config.port, reload=True)
+
+
+def start_prod():
+    uvicorn.run("api.main:app", host=api_config.host, port=api_config.port)
