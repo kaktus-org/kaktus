@@ -37,7 +37,7 @@ services:
       - database
     build:
       context: ./backend
-      dockerfile: ./api/Dockerfile
+      dockerfile: ./api/Dockerfile.prod
     environment:
       - LOCAL_DB_HOST=database
       - LOCAL_DB_NAME=db
