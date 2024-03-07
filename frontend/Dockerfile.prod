@@ -9,6 +9,4 @@ RUN \
 
 COPY . /app
 
-RUN yarn build
-
 CMD [ "serve", "-s", "build"]

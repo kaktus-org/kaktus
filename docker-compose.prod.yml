@@ -4,14 +4,14 @@ services:
 
   nginx:
     build:
-      context: ./nginx-conf
+      context: ./nginx-conf-prod
       dockerfile: ./Dockerfile
     ports:
       - "80:80"
       - "443:443"
       - "8000:8000"
     volumes:
-      - ./nginx-conf:/etc/nginx/conf.d
+      - ./nginx-conf-prod:/etc/nginx/conf.d
     depends_on:
       - api
       - frontend
