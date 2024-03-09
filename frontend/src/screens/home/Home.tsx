@@ -12,8 +12,8 @@ const Home = () => {
     e.preventDefault();
     if (validateEmail(email)) {
       console.log('Submitted email:', email);
-      setEmail(''); // Clear the input after successful submission
-      setEmailError(''); // Clear any previous error messages
+      setEmail('');
+      setEmailError('');
     } else {
       console.log("Email invalid");
       setEmailError('Please enter a valid email address.');
@@ -22,7 +22,7 @@ const Home = () => {
 
   const handleChange = (e: any) => {
     setEmail(e.target.value);
-    if (emailError) setEmailError(''); // Clear the error message when user starts to correct the email
+    if (emailError) setEmailError('');
   };
 
   interface FeatureProps {
@@ -62,7 +62,7 @@ const Home = () => {
             type="text"
             id="email"
             name="email"
-            className={`w-full p-4 mb-2 rounded-lg text-lg text-gray-700 ${emailError ? 'border-red-500' : ''}`} // Add border color change on error
+            className={`w-full p-4 mb-2 rounded-lg text-lg text-gray-700 ${emailError ? 'border-red-500' : ''}`}
             placeholder="you@example.com"
             value={email}
             onChange={handleChange}
