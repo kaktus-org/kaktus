@@ -1,6 +1,4 @@
-from .routers import users
-from .routers import banking
-from db.models import users as users_model
+from db.models import emails as emails_model
 from db.database import engine
 from .config import api_config
 from utils.logger import logger_config, configure_logger
@@ -11,12 +9,9 @@ import uvicorn
 
 logger = configure_logger(__name__, logger_config.logging_level)
 
-users_model.Base.metadata.create_all(bind=engine)
+emails_model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
-app.include_router(users.router)
-app.include_router(banking.router)
 
 origins = [
     "http://127.0.0.1:3000",
@@ -41,7 +36,7 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"message": "yurr"}
+    return {"message": "Mailing service root"}
 
 
 def start():
