@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from 'api/axiosConfig';
 
 const Home = () => {
   const [email, setEmail] = useState('');
@@ -8,12 +9,18 @@ const Home = () => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (validateEmail(email)) {
-      console.log('Submitted email:', email);
-      setEmail('');
-      setEmailError('');
+      try {
+        console.log('Submitting email:', email);
+        const response = await api.post('/subscribe/', { email });
+        console.log('Sent succesfully, response: ', response);
+        setEmail('');
+        setEmailError('');
+      } catch (error) { 
+        console.log('Error submitting email: ', error);
+      }
     } else {
       console.log("Email invalid");
       setEmailError('Please enter a valid email address.');
