@@ -18,6 +18,15 @@ module.exports = {
       },
     },
   },
+  variants: {
+    extend: {
+      opacity: ['responsive', 'hover', 'focus', 'group-hover'],
+      translate: ['responsive', 'hover', 'focus', 'group-hover'],
+      transitionProperty: ['responsive', 'hover', 'focus', 'group-hover'],
+      transitionDuration: ['responsive', 'hover', 'focus', 'group-hover'],
+      transitionTimingFunction: ['responsive', 'hover', 'focus', 'group-hover'],
+    },
+  },
   plugins: [
     require("tailwindcss"),
     require("autoprefixer"),

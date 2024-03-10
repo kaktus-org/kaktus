@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import api from 'api/axiosConfig';
+import Popup from 'components/Popup'; 
 
 const Home = () => {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [popupVisible, setPopupVisible] = useState(false);
 
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -16,6 +19,8 @@ const Home = () => {
         console.log('Submitting email:', email);
         const response = await api.post('/subscribe/', { email });
         console.log('Sent succesfully, response: ', response);
+        setPopupVisible(true);
+        setEmailSubmitted(true);
         setEmail('');
         setEmailError('');
       } catch (error) { 
@@ -23,6 +28,7 @@ const Home = () => {
       }
     } else {
       console.log("Email invalid");
+      setEmailSubmitted(false);
       setEmailError('Please enter a valid email address.');
     }
   };
@@ -75,6 +81,7 @@ const Home = () => {
             onChange={handleChange}
           />
           {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
+          {emailSubmitted && <p className="text-green-700 text-sm">Thank you for registering! To start receiving emails from us, please confirm your email address.</p>}
           <button type="submit" className="mt-4 w-full bg-hunterGreen hover:bg-britishRacingGreen text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 ease-in-out">
             Join our Beta
           </button>
@@ -128,6 +135,7 @@ const Home = () => {
         />
       </div>
 
+      {popupVisible && <Popup message={`Thank you for registering! To start receiving emails from us, please confirm your email address.`} isVisible={popupVisible} onClose={() => setPopupVisible(false)} />}
 
     </div>
   );
