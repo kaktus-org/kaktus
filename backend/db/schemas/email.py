@@ -1,11 +1,14 @@
-from pydantic import BaseModel
-from sqlalchemy import Date
+from pydantic import BaseModel, EmailStr
+from datetime import date
 
 
-class Email(BaseModel):
-    id: int
-    email: str
-    date_signed_up: Date
+class EmailCreate(BaseModel):
+    email: EmailStr
+
+
+class EmailSchema(EmailCreate):
+    date_signed_up: date
 
     class Config:
-        from_attributes = True
+        orm_mode = True
+        arbitrary_types_allowed = True

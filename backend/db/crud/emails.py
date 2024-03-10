@@ -8,16 +8,16 @@ from utils.statics import StaticClass
 class EmailsCRUD(metaclass=StaticClass):
 
     @staticmethod
-    def get_user_by_email(db: Session, email: str):
+    def get_email(db: Session, email: str):
         return db.query(Email).filter(Email.email == email).first()
 
     @staticmethod
-    def get_users(db: Session, skip: int = 0, limit: int = 100):
+    def get_emails(db: Session, skip: int = 0, limit: int = 100):
         return db.query(Email).offset(skip).limit(limit).all()
 
     @staticmethod
-    def create_email(db: Session, email: Email):
-        db_email = Email(email=email.email, date_signed_up=datetime.now(), is_active=True)
+    def create_email(db: Session, email: str):
+        db_email = Email(email=email, date_signed_up=datetime.now())
         db.add(db_email)
         db.flush()
         db.commit()
