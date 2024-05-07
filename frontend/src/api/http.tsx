@@ -1,6 +1,5 @@
-import { AxiosError, AxiosRequestConfig, AxiosResponse, HttpStatusCode } from "axios"
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import api from "./axiosConfig"
-import { ConsumerReportPermissiblePurpose } from "plaid"
 
 export interface IHttpClient {
     get<T>(url: string, headers?: Headers): Promise<T>

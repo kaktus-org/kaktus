@@ -7,6 +7,7 @@ import SecureRoute from "SecureRoute";
 import AdminHeader from "components/AdminHeader";
 import Dashboard from "screens/admin/dashboard/Dashboard";
 import Users from "screens/admin/users/Users";
+import { ChartsPage } from "screens/charts";
 
 function App() {
   const location = useLocation();
@@ -23,6 +24,7 @@ function App() {
           <Route path="/users" element={<UsersPage />} />
           <Route path="/transactions" element={<TransactionsPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/charts" element={<ChartsPage />} />
 
           {/* Admin Routes */}
           <Route element={<SecureRoute />}>

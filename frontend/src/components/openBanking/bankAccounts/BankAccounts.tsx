@@ -1,4 +1,3 @@
-import React from 'react'
 import { BankAccountData, BankAccount } from './bankAccount';
 
 interface BankAccountsProps {
@@ -8,11 +7,18 @@ interface BankAccountsProps {
 const BankAccounts = ({ data }: BankAccountsProps) => {
     return (
         <div>
-            <ul>
-                {data.map((account: BankAccountData) => {
-                    return <BankAccount bankAccountData={account} />
-                })}
-            </ul>
+            {data &&
+                <ul>
+                    {data.map((account: BankAccountData) => {
+                        return <li key={account.account_id}>
+                            <BankAccount bankAccountData={account} />
+                        </li>
+                    })}
+                </ul>
+            }
+            {!data &&
+                "Error fetching Bank details"
+            }
         </div>
     );
 }
