@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from "api";
 import { Transactions } from "components/openBanking/Transactions";
 import { BankAccounts } from "components/openBanking/bankAccounts";
 import { PairBankButton, RePairBankButton, IncomeVerificationButton, PairLiabilityButton } from 'components/openBanking/OpenBanking';
-
+import { BalanceTimeGraph } from 'components/graphs';
 interface AllTransactionData {
     data: AccountTransactionData[]
 }
@@ -67,13 +67,36 @@ function DashboardPage() {
                     </div>}
                     {error && <div>Error: {error}</div>}
                     {BankAccountData &&
-                        <div>
-                            <ul>
-                                {BankAccountData.slice(0, 2).map((accounts: BankAccountData) => {
-                                    return <BankAccounts data={accounts.accounts} />
-                                })}
-                            </ul>
-                        </div>}
+                        <ul >
+                            {BankAccountData.slice(0, 2).map((accounts, i) => {
+                                return <BankAccounts key={i} data={accounts.accounts} />
+                            })}
+                        </ul>}
+                </div>
+
+                <div className="mb-8 shadow-lg p-4 rounded-lg">
+                    <h3 className="text-xl font-semibold mb-4">Balance Graph</h3>
+                    {!transactionData && !error && <div className="flex items-center justify-center">
+                        <div className="animate-spin rounded-full border-t-4 border-hunterGreen border-solid h-12 w-12"></div>
+                    </div>}
+                    {error && <div>Error: {error}</div>}
+                    {transactionData &&
+                        <ul>
+                            {transactionData.slice(0, 1).map((transactions, i) => {
+                                if (transactions.added) {
+                                    return <BalanceTimeGraph key={i} data={transactions.added} />
+                                } else {
+                                    return "Error fetching transactions"
+                                }
+                            })}
+                        </ul>}
+                    <a
+                        href="/charts"
+                        className="bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600 transition"
+                        onClick={() => { return; }}
+                    >
+                        View More
+                    </a>
                 </div>
 
                 <div className="mb-8 shadow-lg p-4 rounded-lg">
@@ -83,13 +106,15 @@ function DashboardPage() {
                     </div>}
                     {error && <div>Error: {error}</div>}
                     {transactionData &&
-                        <div>
-                            <ul>
-                                {transactionData.slice(0, 1).map((transactions: AccountTransactionData) => {
-                                    return <Transactions data={transactions.added.slice(0, 3)} />
-                                })}
-                            </ul>
-                        </div>}
+                        <ul>
+                            {transactionData.slice(0, 1).map((transactions, i) => {
+                                if (transactions.added) {
+                                    return <Transactions key={i} data={transactions.added.slice(0, 5)} />
+                                } else {
+                                    return "Error fetching transactions"
+                                }
+                            })}
+                        </ul>}
                 </div>
 
                 <div className='shadow-lg p-4 rounded-lg'>

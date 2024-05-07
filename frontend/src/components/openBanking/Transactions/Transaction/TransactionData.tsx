@@ -28,3 +28,7 @@ export interface TransactionData {
     unofficial_currency_code: string,
     website: string
 }
+
+export interface TransactionsProps {
+    data: TransactionData[];
+}

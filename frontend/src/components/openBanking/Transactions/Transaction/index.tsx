@@ -1,2 +1,2 @@
 export { Transaction } from "./Transaction";
-export type { TransactionData } from "./TransactionData";
+export type { TransactionData, TransactionsProps } from "./TransactionData";

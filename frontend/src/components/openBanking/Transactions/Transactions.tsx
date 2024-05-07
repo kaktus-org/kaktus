@@ -1,18 +1,12 @@
 import React from "react";
-import { Transaction, TransactionData } from "./Transaction";
-
-interface TransactionsProps {
-    data: TransactionData[];
-}
+import { Transaction, TransactionsProps } from "./Transaction";
 
 export const Transactions: React.FC<TransactionsProps> = ({ data }) => {
     return (
-        <div>
-            <ul>
-                {data.map((transaction: TransactionData) => {
-                    return <Transaction transactionData={transaction} />
-                })}
-            </ul>
-        </div>
+        <ul>
+            {data.map((transaction, i) => {
+                return <Transaction key={i} transactionData={transaction} />
+            })}
+        </ul>
     );
 };

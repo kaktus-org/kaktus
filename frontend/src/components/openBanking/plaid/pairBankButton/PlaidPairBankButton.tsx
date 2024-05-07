@@ -7,12 +7,6 @@ import {
 } from "react-plaid-link";
 import { PlaidLinkButtonTemplate } from "components/openBanking/plaid";
 
-interface LinkToken {
-  data: {
-    link_token: string,
-    expiration: string
-  }
-}
 
 export const PlaidPairBankButton = () => {
 
