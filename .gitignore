@@ -2,3 +2,8 @@
 .vscode
 .env
 kaktus-key-pair.pem
+
+.terraform/
+.terraform.*
+terraform.tfstate
+terraform.tfstate.*
